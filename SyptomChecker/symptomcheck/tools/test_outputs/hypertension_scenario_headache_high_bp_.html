@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Symptom Checker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Minimal Bootstrap for quick styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="http://localhost">HealthAdvisor – Symptom Checker</a>
+    </div>
+</nav>
+
+<main class="container mb-5">
+    
+    <div class="row justify-content-center">
+    <div class="col-lg-9">
+        <!-- Health Vitals Alert Section -->
+                                
+            <div class="card shadow-sm mb-4 border-warning">
+                <div class="card-header bg-light border-warning">
+                    <h5 class="mb-0">Your Health Vitals</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                                                    <div class="col-md-6 mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="mb-1"><strong>Blood Pressure:</strong></p>
+                                        <p class="h5 mb-0">150/95 mmHg</p>
+                                    </div>
+                                                                            <span class="badge bg-danger">HIGH</span>
+                                                                    </div>
+                            </div>
+                        
+                                                    <div class="col-md-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="mb-1"><strong>Heart Rate:</strong></p>
+                                        <p class="h5 mb-0">85 BPM</p>
+                                    </div>
+                                                                            <span class="badge bg-success">NORMAL</span>
+                                                                    </div>
+                            </div>
+                        
+                                                    <div class="col-md-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="mb-1"><strong>Temperature:</strong></p>
+                                        <p class="h5 mb-0">36.7°C</p>
+                                    </div>
+                                                                            <span class="badge bg-success">NORMAL</span>
+                                                                    </div>
+                            </div>
+                                            </div>
+
+                    <!-- High BP Warning -->
+                                            <div class="alert alert-danger mt-3 mb-0">
+                            <strong>⚠️ High Blood Pressure Detected</strong>
+                            <p class="mb-0 mt-2 small">Your blood pressure reading is elevated. Please consider:</p>
+                            <ul class="mb-0 small mt-2">
+                                <li>Reducing sodium (salt) intake in your diet</li>
+                                <li>Regular physical activity (at least 150 minutes per week)</li>
+                                <li>Managing stress through relaxation techniques</li>
+                                <li>Limiting alcohol consumption</li>
+                                <li>Maintaining a healthy weight</li>
+                                <li>Consulting a healthcare professional if readings remain high</li>
+                            </ul>
+                        </div>
+                    
+                    <!-- Fever Warning -->
+                    
+                    <!-- Abnormal HR Warning -->
+                                    </div>
+            </div>
+        
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-white border-0">
+                <h1 class="h4 mb-0">Possible conditions</h1>
+            </div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Selected symptoms:</strong></p>
+                <ul>
+                                            <li>Headache</li>
+                                    </ul>
+
+                                    <p class="text-muted small">
+                        The list below shows conditions that are commonly associated with the symptoms you selected.
+                        They are ordered by how closely they match your symptoms in this demo dataset.
+                    </p>
+
+                    <div class="list-group">
+                                                                                <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h2 class="h5 mb-1">Flu (influenza)</h2>
+                                    <span class="badge
+                                         bg-warning text-dark
+                                                                            text-uppercase small">
+                                        Urgent
+                                    </span>
+                                </div>
+                                <p class="mb-2">A common viral infection that can cause high temperature, aches and fatigue.</p>
+
+                                <p class="mb-2 small text-muted">
+                                    Match score: 3 |
+                                    Matching symptoms: 1 / 1
+                                </p>
+
+                                                                    <p class="mb-3"><strong>Self‑care / next steps:</strong> Rest at home and drink fluids. Seek medical help if you are very unwell, pregnant, elderly or have a long‑term condition.</p>
+                                
+                                <!-- Treatments Section -->
+                                                                    <div class="mt-3 pt-3 border-top">
+                                        <h6 class="mb-3"><strong>Recommended Treatments:</strong></h6>
+                                        
+                                        
+                                                                                    <div class="mb-3">
+                                                <h6 class="mb-2">
+                                                                                                                ✓ General Care
+                                                                                                        </h6>
+
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Stay Hydrated</h6>
+                                                            <p class="card-text mb-2 small">Drink plenty of fluids to help your body fight the infection and prevent dehydration.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Drink at least 8-10 glasses of water daily<br />
+2. Include warm liquids like tea, soup, or warm lemon water<br />
+3. Avoid alcohol and excessive caffeine<br />
+4. Drink fluids even if you don&#039;t feel thirsty
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> 2-3 weeks
+                                                                                                                                                                                                                <strong>Frequency:</strong> throughout the day
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Get Adequate Rest</h6>
+                                                            <p class="card-text mb-2 small">Allow your body to focus energy on fighting the infection by getting enough sleep.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Get 7-9 hours of sleep each night<br />
+2. Take naps during the day if possible<br />
+3. Avoid strenuous activities<br />
+4. Keep your bedroom cool and dark<br />
+5. Keep the air moist with a humidifier
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> 1-2 weeks
+                                                                                                                                                                                                                <strong>Frequency:</strong> daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Throat Lozenges and Warm Liquids</h6>
+                                                            <p class="card-text mb-2 small">Soothe a sore throat with lozenges and warm beverages.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Use over-the-counter throat lozenges containing menthol or honey<br />
+2. Gargle with warm salt water (1/2 teaspoon salt in 8oz water) 3-4 times daily<br />
+3. Drink warm tea with honey and lemon<br />
+4. Avoid hot spicy foods<br />
+5. Use a humidifier to keep air moist
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> 1-2 weeks
+                                                                                                                                                                                                                <strong>Frequency:</strong> 3-4 times daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                            </div>
+                                                                                    <div class="mb-3">
+                                                <h6 class="mb-2">
+                                                                                                                💊 Medications
+                                                                                                        </h6>
+
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Pain and Fever Management</h6>
+                                                            <p class="card-text mb-2 small">Use over-the-counter medications to manage pain and fever safely.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Use Paracetamol or Ibuprofen as directed on the package<br />
+2. Do not exceed recommended daily doses<br />
+3. Space doses at least 4-6 hours apart<br />
+4. Alternate between different pain relief types (if approved by doctor)<br />
+5. Take with food if you have a sensitive stomach<br />
+6. Stop and consult doctor if fever lasts more than 3 days<br />
+7. Never give to children without checking appropriate doses
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> 3-5 days
+                                                                                                                                                                                                                <strong>Frequency:</strong> as needed
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                            </div>
+                                                                            </div>
+                                                            </div>
+                                                                                <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h2 class="h5 mb-1">COVID‑19 (suspected)</h2>
+                                    <span class="badge
+                                         bg-warning text-dark
+                                                                            text-uppercase small">
+                                        Urgent
+                                    </span>
+                                </div>
+                                <p class="mb-2">Coronavirus infection, often causing fever, cough and changes to taste or smell.</p>
+
+                                <p class="mb-2 small text-muted">
+                                    Match score: 2 |
+                                    Matching symptoms: 1 / 1
+                                </p>
+
+                                                                    <p class="mb-3"><strong>Self‑care / next steps:</strong> Follow local public health guidance. Isolate if advised and seek urgent help if you have difficulty breathing or chest pain.</p>
+                                
+                                <!-- Treatments Section -->
+                                                                    <div class="mt-3 pt-3 border-top">
+                                        <h6 class="mb-3"><strong>Recommended Treatments:</strong></h6>
+                                        
+                                        
+                                                                                    <div class="mb-3">
+                                                <h6 class="mb-2">
+                                                                                                                ✓ General Care
+                                                                                                        </h6>
+
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Stay Hydrated</h6>
+                                                            <p class="card-text mb-2 small">Drink plenty of fluids to help your body fight the infection and prevent dehydration.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Drink at least 8-10 glasses of water daily<br />
+2. Include warm liquids like tea, soup, or warm lemon water<br />
+3. Avoid alcohol and excessive caffeine<br />
+4. Drink fluids even if you don&#039;t feel thirsty
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> 2-3 weeks
+                                                                                                                                                                                                                <strong>Frequency:</strong> throughout the day
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Get Adequate Rest</h6>
+                                                            <p class="card-text mb-2 small">Allow your body to focus energy on fighting the infection by getting enough sleep.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Get 7-9 hours of sleep each night<br />
+2. Take naps during the day if possible<br />
+3. Avoid strenuous activities<br />
+4. Keep your bedroom cool and dark<br />
+5. Keep the air moist with a humidifier
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> 1-2 weeks
+                                                                                                                                                                                                                <strong>Frequency:</strong> daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                            </div>
+                                                                                    <div class="mb-3">
+                                                <h6 class="mb-2">
+                                                                                                                💊 Medications
+                                                                                                        </h6>
+
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Pain and Fever Management</h6>
+                                                            <p class="card-text mb-2 small">Use over-the-counter medications to manage pain and fever safely.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Use Paracetamol or Ibuprofen as directed on the package<br />
+2. Do not exceed recommended daily doses<br />
+3. Space doses at least 4-6 hours apart<br />
+4. Alternate between different pain relief types (if approved by doctor)<br />
+5. Take with food if you have a sensitive stomach<br />
+6. Stop and consult doctor if fever lasts more than 3 days<br />
+7. Never give to children without checking appropriate doses
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> 3-5 days
+                                                                                                                                                                                                                <strong>Frequency:</strong> as needed
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                            </div>
+                                                                            </div>
+                                                            </div>
+                                                                                <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h2 class="h5 mb-1">Hypertension (High Blood Pressure)</h2>
+                                    <span class="badge
+                                         bg-success
+                                                                            text-uppercase small">
+                                        Routine
+                                    </span>
+                                </div>
+                                <p class="mb-2">Elevated blood pressure that can lead to serious health complications if untreated.</p>
+
+                                <p class="mb-2 small text-muted">
+                                    Match score: 2 |
+                                    Matching symptoms: 1 / 1
+                                </p>
+
+                                                                    <p class="mb-3"><strong>Self‑care / next steps:</strong> Monitor your blood pressure regularly, make lifestyle changes, and consult a doctor for medication if needed.</p>
+                                
+                                <!-- Treatments Section -->
+                                                                    <div class="mt-3 pt-3 border-top">
+                                        <h6 class="mb-3"><strong>Recommended Treatments:</strong></h6>
+                                        
+                                        
+                                                                                    <div class="mb-3">
+                                                <h6 class="mb-2">
+                                                                                                                🍎 Diet Changes
+                                                                                                        </h6>
+
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">DASH Diet - Reduce Sodium</h6>
+                                                            <p class="card-text mb-2 small">The DASH diet helps lower blood pressure by reducing salt intake and increasing nutrients.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Limit salt to less than 2,300mg per day (ideally 1,500mg)<br />
+2. Avoid processed foods, canned soups, and deli meats<br />
+3. Don&#039;t add salt while cooking or at the table<br />
+4. Use herbs and spices for flavoring instead of salt<br />
+5. Read nutrition labels and choose low-sodium options<br />
+6. Rinse canned vegetables to reduce sodium<br />
+7. Prepare meals at home instead of eating out
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> ongoing
+                                                                                                                                                                                                                <strong>Frequency:</strong> daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Increase Potassium Rich Foods</h6>
+                                                            <p class="card-text mb-2 small">Foods high in potassium help balance fluids and reduce blood pressure.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Eat bananas, oranges, and avocados<br />
+2. Include sweet potatoes, spinach, and kale<br />
+3. Eat beans and lentils<br />
+4. Include fish like salmon (rich in omega-3)<br />
+5. Eat nuts and seeds<br />
+6. Aim for 4,700mg of potassium daily<br />
+7. Consult doctor if on potassium-limiting medications
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> ongoing
+                                                                                                                                                                                                                <strong>Frequency:</strong> daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Reduce Saturated Fats</h6>
+                                                            <p class="card-text mb-2 small">Lower saturated fat intake to improve heart health and blood pressure.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Choose lean meats and remove visible fat<br />
+2. Use low-fat or skim milk instead of whole milk<br />
+3. Limit butter and use olive oil instead<br />
+4. Avoid fried foods and fatty snacks<br />
+5. Include fish twice a week for omega-3 fatty acids<br />
+6. Choose whole grains over refined grains<br />
+7. Limit cheese and cream-based sauces
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> ongoing
+                                                                                                                                                                                                                <strong>Frequency:</strong> daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                            </div>
+                                                                                    <div class="mb-3">
+                                                <h6 class="mb-2">
+                                                                                                                🏃 Exercise & Physical Activity
+                                                                                                        </h6>
+
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Regular Aerobic Exercise</h6>
+                                                            <p class="card-text mb-2 small">Aerobic exercises strengthen the heart and help lower blood pressure.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Aim for 150 minutes of moderate activity per week<br />
+2. Examples: brisk walking, cycling, swimming, jogging<br />
+3. Exercise at least 30 minutes most days of the week<br />
+4. Start slowly if you&#039;re not active currently<br />
+5. Warm up for 5 minutes before exercising<br />
+6. Cool down for 5 minutes after exercising<br />
+7. Check with your doctor before starting a new exercise program
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> ongoing
+                                                                                                                                                                                                                <strong>Frequency:</strong> 5-7 days per week
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                            </div>
+                                                                                    <div class="mb-3">
+                                                <h6 class="mb-2">
+                                                                                                                🧘 Lifestyle Changes
+                                                                                                        </h6>
+
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Stress Management and Relaxation</h6>
+                                                            <p class="card-text mb-2 small">Chronic stress raises blood pressure; relaxation techniques can help lower it.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Practice deep breathing exercises for 10 minutes daily<br />
+2. Try meditation or mindfulness for 10-20 minutes daily<br />
+3. Practice yoga 2-3 times per week<br />
+4. Use progressive muscle relaxation<br />
+5. Listen to calming music<br />
+6. Spend time in nature<br />
+7. Take regular breaks during work<br />
+8. Limit caffeine intake (max 2 cups of coffee daily)
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> ongoing
+                                                                                                                                                                                                                <strong>Frequency:</strong> daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Limit Alcohol Consumption</h6>
+                                                            <p class="card-text mb-2 small">Excessive alcohol raises blood pressure; limiting intake helps maintain healthy levels.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Men: limit to 2 drinks per day maximum<br />
+2. Women: limit to 1 drink per day maximum<br />
+3. A standard drink is 12oz beer, 5oz wine, or 1.5oz spirits<br />
+4. Have alcohol-free days each week<br />
+5. Avoid binge drinking<br />
+6. Choose lower alcohol beverages<br />
+7. Drink water instead of alcohol when possible
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> ongoing
+                                                                                                                                                                                                                <strong>Frequency:</strong> daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Maintain Healthy Weight</h6>
+                                                            <p class="card-text mb-2 small">Losing even 10 pounds can significantly lower blood pressure if you&#039;re overweight.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Calculate your healthy weight range with your doctor<br />
+2. Aim to lose 1-2 pounds per week if overweight<br />
+3. Combine diet changes with regular exercise<br />
+4. Track your food intake and calories<br />
+5. Eat smaller portions<br />
+6. Avoid late-night eating<br />
+7. Get weighed weekly to monitor progress
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> ongoing
+                                                                                                                                                                                                                <strong>Frequency:</strong> daily
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                                    <div class="card card-sm mb-2">
+                                                        <div class="card-body p-2">
+                                                            <h6 class="card-title mb-1">Quit Smoking</h6>
+                                                            <p class="card-text mb-2 small">Smoking increases blood pressure and damages blood vessels. Quitting is crucial.</p>
+                                                            
+                                                                                                                            <details class="mt-2">
+                                                                    <summary class="small text-primary cursor-pointer">View detailed instructions</summary>
+                                                                    <div class="mt-2 ms-3 p-2 bg-light rounded small">
+                                                                        1. Set a quit date and stick to it<br />
+2. Tell friends and family about your goal<br />
+3. Avoid places where people smoke<br />
+4. Use nicotine replacement therapy if needed (patches, gum, lozenges)<br />
+5. Consider prescription medications like Champix or Zyban<br />
+6. Join a smoking cessation program<br />
+7. Call a quit-smoking helpline for support<br />
+8. Use stress management techniques instead of smoking
+                                                                    </div>
+                                                                </details>
+                                                            
+                                                                                                                            <p class="mb-0 mt-2 small text-muted">
+                                                                                                                                            <strong>Duration:</strong> ongoing
+                                                                                                                                                                                                                <strong>Frequency:</strong> as needed
+                                                                                                                                    </p>
+                                                                                                                    </div>
+                                                    </div>
+                                                                                            </div>
+                                                                            </div>
+                                                            </div>
+                                            </div>
+                
+                <div class="alert alert-info mt-4 small mb-0">
+                    <strong>Important:</strong> This tool is for education and demonstration only. It does not replace
+                    a consultation with a doctor or other qualified healthcare professional. If your symptoms are severe,
+                    getting worse, or you are worried about your health, seek urgent medical help.
+                </div>
+
+                <a href="http://localhost" class="btn btn-link mt-3">Start again</a>
+            </div>
+        </div>
+    </div>
+</div>
+</main>
+
+<footer class="text-center text-muted py-4">
+    <small>&copy; 2025 HealthAdvisor – Educational symptom checker only. Not a substitute for professional medical advice.</small>
+</footer>
+
+</body>
+</html>

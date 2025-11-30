@@ -1,0 +1,1785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthAdvisor - Your Personal Health Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --success-color: #10b981;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background-color: var(--gray-100);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: var(--white);
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Section Utilities */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Disclaimer Banner */
+        .disclaimer {
+            background: #fef3c7;
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 0.5rem;
+        }
+
+        .disclaimer-critical {
+            background: #fee2e2;
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .disclaimer h3 {
+            color: var(--danger-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            max-width: 500px;
+            margin: 3rem auto;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-top: 0.25rem;
+        }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .dashboard-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .dashboard-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Assessment Wizard */
+        .wizard-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .wizard-header {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            background: var(--gray-100);
+            padding: 1rem 2rem;
+        }
+
+        .wizard-step {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            position: relative;
+        }
+
+        .wizard-step.active {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .wizard-step.completed {
+            color: var(--success-color);
+        }
+
+        .wizard-content {
+            padding: 2rem;
+        }
+
+        .wizard-step-content {
+            display: none;
+        }
+
+        .wizard-step-content.active {
+            display: block;
+        }
+
+        .wizard-navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+            background: var(--gray-100);
+        }
+
+        /* Symptom Selector */
+        .symptom-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .category-btn {
+            padding: 1rem;
+            background: var(--white);
+            border: 2px solid var(--gray-300);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .category-btn:hover {
+            border-color: var(--primary-color);
+            background: var(--gray-100);
+        }
+
+        .category-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .symptom-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .symptom-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--white);
+            border: 2px solid var(--gray-300);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .symptom-checkbox input[type="checkbox"] {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .symptom-checkbox:hover {
+            border-color: var(--primary-color);
+            background: var(--gray-100);
+        }
+
+        .symptom-checkbox.checked {
+            border-color: var(--primary-color);
+            background: #eff6ff;
+        }
+
+        /* Vital Signs Input */
+        .vitals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .vital-card {
+            background: var(--gray-100);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .vital-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .vital-input input {
+            flex: 1;
+        }
+
+        .vital-unit {
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        /* Results Display */
+        .results-container {
+            max-width: 900px;
+            margin: 2rem auto;
+        }
+
+        .urgency-banner {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .urgency-emergency {
+            background: var(--danger-color);
+            color: var(--white);
+        }
+
+        .urgency-urgent {
+            background: var(--warning-color);
+            color: var(--white);
+        }
+
+        .urgency-routine {
+            background: var(--success-color);
+            color: var(--white);
+        }
+
+        .condition-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .condition-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .confidence-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .confidence-high {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .confidence-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .confidence-low {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Treatment Sections */
+        .treatment-section {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .treatment-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--gray-200);
+            padding-bottom: 0.5rem;
+        }
+
+        .treatment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .treatment-card {
+            background: var(--gray-100);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .treatment-card h4 {
+            margin-bottom: 0.75rem;
+        }
+
+        .medication-warning {
+            background: #fef3c7;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+
+        /* Video/Visual Guide */
+        .visual-guide {
+            background: var(--gray-100);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+
+        .video-placeholder {
+            background: var(--gray-300);
+            height: 300px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        /* Progress Tracker */
+        .progress-tracker {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .progress-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .progress-item:last-child {
+            border-bottom: none;
+        }
+
+        .progress-checkbox {
+            width: 24px;
+            height: 24px;
+            margin-right: 1rem;
+            cursor: pointer;
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-600);
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid var(--success-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .wizard-steps {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-2 { margin-top: 1rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🏥</span>
+                HealthAdvisor
+            </div>
+            <ul class="nav-links" id="mainNav">
+                <li><a href="#" onclick="showSection('landing')">Home</a></li>
+                <li><a href="#" onclick="showSection('about')">About</a></li>
+                <li><a href="#" onclick="showSection('login')">Login</a></li>
+            </ul>
+            <div id="userNav" class="hidden">
+                <button class="btn btn-secondary" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Landing Section -->
+    <section id="landing" class="section active">
+        <div class="hero">
+            <h1>Your Personal Health Companion</h1>
+            <p>Get instant health advice based on your symptoms and vital signs</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary btn-large" onclick="showSection('register')">Get Started</button>
+                <button class="btn btn-secondary btn-large" onclick="showSection('login')">Sign In</button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="disclaimer disclaimer-critical">
+                <h3>⚠️ IMPORTANT MEDICAL DISCLAIMER</h3>
+                <p><strong>This system is NOT a substitute for professional medical advice, diagnosis, or treatment.</strong></p>
+                <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>Always seek the advice of your physician or other qualified health provider</li>
+                    <li>Never disregard professional medical advice or delay seeking it</li>
+                    <li>If you think you may have a medical emergency, call 999 (UK) or 911 (US) immediately</li>
+                    <li>This service provides general information only and should not be relied upon for medical decisions</li>
+                </ul>
+            </div>
+
+            <h2 class="text-center">How It Works</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>1. Describe Your Symptoms</h3>
+                    <p>Select from a comprehensive list of symptoms and rate their severity</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💓</div>
+                    <h3>2. Enter Vital Signs</h3>
+                    <p>Input your heart rate, blood pressure, and other vital measurements</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>3. Get Analysis</h3>
+                    <p>Our intelligent system analyzes your data and matches potential conditions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💊</div>
+                    <h3>4. Receive Recommendations</h3>
+                    <p>Get personalized treatment suggestions, lifestyle advice, and educational resources</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Section -->
+    <section id="register" class="section">
+        <div class="auth-container">
+            <h2 class="text-center mb-2">Create Your Account</h2>
+            <p class="text-center" style="color: var(--gray-600); margin-bottom: 2rem;">Start your journey to better health</p>
+
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" required>
+                    <small class="form-text">Must be at least 8 characters</small>
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select class="form-control" required>
+                        <option value="">Select...</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" required style="margin-right: 0.5rem;">
+                        I agree to the Terms of Service and Privacy Policy
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" required style="margin-right: 0.5rem;">
+                        I understand this is not a substitute for professional medical advice
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+            <p class="text-center mt-2">
+                Already have an account? 
+                <a href="#" onclick="showSection('login')" style="color: var(--primary-color);">Sign In</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section id="login" class="section">
+        <div class="auth-container">
+            <h2 class="text-center mb-2">Welcome Back</h2>
+            <p class="text-center" style="color: var(--gray-600); margin-bottom: 2rem;">Sign in to continue</p>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" required value="demo@healthadvisor.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" required value="password123">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" style="margin-right: 0.5rem;">
+                        Remember me
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+            <p class="text-center mt-2">
+                <a href="#" style="color: var(--primary-color);">Forgot password?</a>
+            </p>
+            <p class="text-center mt-2">
+                Don't have an account? 
+                <a href="#" onclick="showSection('register')" style="color: var(--primary-color);">Sign Up</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="section">
+        <div class="container">
+            <h1>Welcome back, John!</h1>
+            <p style="color: var(--gray-600); margin-bottom: 2rem;">Here's your health overview</p>
+
+            <div class="disclaimer">
+                <strong>Remember:</strong> This system provides general information only. Always consult with a healthcare professional for medical advice.
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Quick Assessment</h3>
+                    <p>Start a new health assessment based on your current symptoms</p>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="showSection('assessment')">Start Assessment</button>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Recent Assessments</h3>
+                    <div class="stat-number">3</div>
+                    <p>Completed this month</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Active Treatments</h3>
+                    <div class="stat-number">2</div>
+                    <p>Currently tracking</p>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Last Assessment</h3>
+                    <p><strong>Condition:</strong> Common Cold</p>
+                    <p><strong>Date:</strong> Nov 15, 2025</p>
+                    <p><strong>Status:</strong> <span style="color: var(--success-color);">Improving</span></p>
+                </div>
+            </div>
+
+            <div class="treatment-section">
+                <h3>Assessment History</h3>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--gray-200);">
+                            <th style="text-align: left; padding: 1rem;">Date</th>
+                            <th style="text-align: left; padding: 1rem;">Condition</th>
+                            <th style="text-align: left; padding: 1rem;">Urgency</th>
+                            <th style="text-align: left; padding: 1rem;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--gray-200);">
+                            <td style="padding: 1rem;">Nov 15, 2025</td>
+                            <td style="padding: 1rem;">Common Cold</td>
+                            <td style="padding: 1rem;"><span style="color: var(--success-color);">Routine</span></td>
+                            <td style="padding: 1rem;">
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="showSection('results')">View Details</button>
+                            </td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--gray-200);">
+                            <td style="padding: 1rem;">Nov 10, 2025</td>
+                            <td style="padding: 1rem;">Elevated Blood Pressure</td>
+                            <td style="padding: 1rem;"><span style="color: var(--warning-color);">Urgent</span></td>
+                            <td style="padding: 1rem;">
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">View Details</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem;">Nov 5, 2025</td>
+                            <td style="padding: 1rem;">Headache</td>
+                            <td style="padding: 1rem;"><span style="color: var(--success-color);">Routine</span></td>
+                            <td style="padding: 1rem;">
+                                <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">View Details</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assessment Wizard Section -->
+    <section id="assessment" class="section">
+        <div class="container">
+            <div class="wizard-container">
+                <div class="wizard-header">
+                    <h2>Health Assessment</h2>
+                    <p>Please provide accurate information for the best recommendations</p>
+                </div>
+
+                <div class="wizard-steps">
+                    <div class="wizard-step active" id="step-indicator-1">
+                        <strong>Step 1:</strong> Symptoms
+                    </div>
+                    <div class="wizard-step" id="step-indicator-2">
+                        <strong>Step 2:</strong> Severity
+                    </div>
+                    <div class="wizard-step" id="step-indicator-3">
+                        <strong>Step 3:</strong> Vital Signs
+                    </div>
+                    <div class="wizard-step" id="step-indicator-4">
+                        <strong>Step 4:</strong> History
+                    </div>
+                </div>
+
+                <div class="wizard-content">
+                    <!-- Step 1: Symptom Selection -->
+                    <div class="wizard-step-content active" id="wizard-step-1">
+                        <h3>Select Your Symptoms</h3>
+                        <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Choose all symptoms you are currently experiencing</p>
+
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" placeholder="Search symptoms..." id="symptomSearch" onkeyup="filterSymptoms()">
+                        </div>
+
+                        <h4>Common Categories</h4>
+                        <div class="symptom-categories">
+                            <button class="category-btn active" onclick="filterByCategory('all')">
+                                <div>📋</div>
+                                <div>All Symptoms</div>
+                            </button>
+                            <button class="category-btn" onclick="filterByCategory('respiratory')">
+                                <div>🫁</div>
+                                <div>Respiratory</div>
+                            </button>
+                            <button class="category-btn" onclick="filterByCategory('cardiovascular')">
+                                <div>💓</div>
+                                <div>Cardiovascular</div>
+                            </button>
+                            <button class="category-btn" onclick="filterByCategory('digestive')">
+                                <div>🍽️</div>
+                                <div>Digestive</div>
+                            </button>
+                            <button class="category-btn" onclick="filterByCategory('neurological')">
+                                <div>🧠</div>
+                                <div>Neurological</div>
+                            </button>
+                            <button class="category-btn" onclick="filterByCategory('musculoskeletal')">
+                                <div>🦴</div>
+                                <div>Musculoskeletal</div>
+                            </button>
+                        </div>
+
+                        <h4 style="margin-top: 2rem;">Available Symptoms</h4>
+                        <div class="symptom-list" id="symptomList">
+                            <label class="symptom-checkbox" data-category="respiratory">
+                                <input type="checkbox" name="symptom" value="cough" onchange="toggleSymptom(this)">
+                                <span>Cough</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="respiratory">
+                                <input type="checkbox" name="symptom" value="shortness-breath" onchange="toggleSymptom(this)">
+                                <span>Shortness of Breath</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="respiratory">
+                                <input type="checkbox" name="symptom" value="chest-pain" onchange="toggleSymptom(this)">
+                                <span>Chest Pain</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="neurological">
+                                <input type="checkbox" name="symptom" value="headache" onchange="toggleSymptom(this)">
+                                <span>Headache</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="neurological">
+                                <input type="checkbox" name="symptom" value="dizziness" onchange="toggleSymptom(this)">
+                                <span>Dizziness</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="digestive">
+                                <input type="checkbox" name="symptom" value="nausea" onchange="toggleSymptom(this)">
+                                <span>Nausea</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="digestive">
+                                <input type="checkbox" name="symptom" value="stomach-pain" onchange="toggleSymptom(this)">
+                                <span>Stomach Pain</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="digestive">
+                                <input type="checkbox" name="symptom" value="diarrhea" onchange="toggleSymptom(this)">
+                                <span>Diarrhea</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="general">
+                                <input type="checkbox" name="symptom" value="fever" onchange="toggleSymptom(this)">
+                                <span>Fever</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="general">
+                                <input type="checkbox" name="symptom" value="fatigue" onchange="toggleSymptom(this)">
+                                <span>Fatigue</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="musculoskeletal">
+                                <input type="checkbox" name="symptom" value="muscle-ache" onchange="toggleSymptom(this)">
+                                <span>Muscle Ache</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="musculoskeletal">
+                                <input type="checkbox" name="symptom" value="joint-pain" onchange="toggleSymptom(this)">
+                                <span>Joint Pain</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="respiratory">
+                                <input type="checkbox" name="symptom" value="sore-throat" onchange="toggleSymptom(this)">
+                                <span>Sore Throat</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="respiratory">
+                                <input type="checkbox" name="symptom" value="runny-nose" onchange="toggleSymptom(this)">
+                                <span>Runny Nose</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="general">
+                                <input type="checkbox" name="symptom" value="chills" onchange="toggleSymptom(this)">
+                                <span>Chills</span>
+                            </label>
+                            <label class="symptom-checkbox" data-category="cardiovascular">
+                                <input type="checkbox" name="symptom" value="rapid-heartbeat" onchange="toggleSymptom(this)">
+                                <span>Rapid Heartbeat</span>
+                            </label>
+                        </div>
+
+                        <div id="selectedSymptomsDisplay" class="alert alert-info hidden" style="margin-top: 2rem;">
+                            <strong>Selected Symptoms:</strong> <span id="selectedSymptomsList"></span>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Symptom Severity -->
+                    <div class="wizard-step-content" id="wizard-step-2">
+                        <h3>Rate Symptom Severity</h3>
+                        <p style="color: var(--gray-600); margin-bottom: 1.5rem;">How severe are your symptoms and how long have you had them?</p>
+
+                        <div id="severityRatings">
+                            <!-- Dynamic content will be inserted here -->
+                            <div class="alert alert-info">
+                                Please select at least one symptom in Step 1 to continue.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Vital Signs -->
+                    <div class="wizard-step-content" id="wizard-step-3">
+                        <h3>Enter Your Vital Signs</h3>
+                        <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Provide your current vital measurements for accurate assessment</p>
+
+                        <div class="alert alert-warning">
+                            <strong>⚠️ Important:</strong> Ensure measurements are recent and accurate. If you don't have a measurement, you can skip that field.
+                        </div>
+
+                        <div class="vitals-grid">
+                            <div class="vital-card">
+                                <label><strong>Heart Rate</strong></label>
+                                <small class="form-text">Normal: 60-100 bpm</small>
+                                <div class="vital-input">
+                                    <input type="number" class="form-control" id="heartRate" placeholder="75" min="30" max="200">
+                                    <span class="vital-unit">bpm</span>
+                                </div>
+                            </div>
+
+                            <div class="vital-card">
+                                <label><strong>Blood Pressure</strong></label>
+                                <small class="form-text">Normal: 120/80 mmHg</small>
+                                <div class="vital-input">
+                                    <input type="number" class="form-control" id="bpSystolic" placeholder="120" min="70" max="250">
+                                    <span>/</span>
+                                    <input type="number" class="form-control" id="bpDiastolic" placeholder="80" min="40" max="150">
+                                    <span class="vital-unit">mmHg</span>
+                                </div>
+                            </div>
+
+                            <div class="vital-card">
+                                <label><strong>Temperature</strong></label>
+                                <small class="form-text">Normal: 36.1-37.2°C</small>
+                                <div class="vital-input">
+                                    <input type="number" class="form-control" id="temperature" placeholder="36.8" step="0.1" min="35" max="42">
+                                    <span class="vital-unit">°C</span>
+                                </div>
+                            </div>
+
+                            <div class="vital-card">
+                                <label><strong>Oxygen Saturation</strong></label>
+                                <small class="form-text">Normal: 95-100%</small>
+                                <div class="vital-input">
+                                    <input type="number" class="form-control" id="oxygenSat" placeholder="98" min="70" max="100">
+                                    <span class="vital-unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="vitalWarnings" style="margin-top: 2rem;"></div>
+                    </div>
+
+                    <!-- Step 4: Medical History -->
+                    <div class="wizard-step-content" id="wizard-step-4">
+                        <h3>Medical History</h3>
+                        <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Help us provide better recommendations</p>
+
+                        <div class="form-group">
+                            <label><strong>Do you have any chronic conditions?</strong></label>
+                            <div style="margin-top: 0.5rem;">
+                                <label style="display: block; margin-bottom: 0.5rem;">
+                                    <input type="checkbox" name="chronic" value="diabetes" style="margin-right: 0.5rem;">
+                                    Diabetes
+                                </label>
+                                <label style="display: block; margin-bottom: 0.5rem;">
+                                    <input type="checkbox" name="chronic" value="hypertension" style="margin-right: 0.5rem;">
+                                    Hypertension (High Blood Pressure)
+                                </label>
+                                <label style="display: block; margin-bottom: 0.5rem;">
+                                    <input type="checkbox" name="chronic" value="asthma" style="margin-right: 0.5rem;">
+                                    Asthma
+                                </label>
+                                <label style="display: block; margin-bottom: 0.5rem;">
+                                    <input type="checkbox" name="chronic" value="heart-disease" style="margin-right: 0.5rem;">
+                                    Heart Disease
+                                </label>
+                                <label style="display: block; margin-bottom: 0.5rem;">
+                                    <input type="checkbox" name="chronic" value="none" style="margin-right: 0.5rem;">
+                                    None
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label><strong>Are you currently taking any medications?</strong></label>
+                            <textarea class="form-control" rows="3" placeholder="List any medications you're currently taking..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label><strong>Do you have any known allergies?</strong></label>
+                            <textarea class="form-control" rows="3" placeholder="List any allergies (medications, foods, etc.)..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label><strong>Do you smoke?</strong></label>
+                            <select class="form-control">
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                                <option value="former">Former Smoker</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><strong>How often do you exercise?</strong></label>
+                            <select class="form-control">
+                                <option value="daily">Daily</option>
+                                <option value="3-5">3-5 times per week</option>
+                                <option value="1-2">1-2 times per week</option>
+                                <option value="rarely">Rarely</option>
+                                <option value="never">Never</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><strong>Additional Information</strong></label>
+                            <textarea class="form-control" rows="4" placeholder="Any other relevant information about your health or symptoms..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wizard-navigation">
+                    <button class="btn btn-secondary" id="prevBtn" onclick="changeWizardStep(-1)" style="display: none;">Previous</button>
+                    <button class="btn btn-primary" id="nextBtn" onclick="changeWizardStep(1)">Next</button>
+                    <button class="btn btn-success" id="submitBtn" onclick="submitAssessment()" style="display: none;">Submit Assessment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Processing Section -->
+    <section id="processing" class="section">
+        <div class="container">
+            <div class="wizard-container" style="text-align: center; padding: 4rem 2rem;">
+                <h2>Analyzing Your Health Data</h2>
+                <p style="color: var(--gray-600); margin: 1rem 0 2rem;">Please wait while we process your information...</p>
+                <div class="loading-spinner"></div>
+                <p style="color: var(--gray-600); margin-top: 2rem;">This may take a few moments</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="results" class="section">
+        <div class="container">
+            <div class="results-container">
+                <h1>Assessment Results</h1>
+                <p style="color: var(--gray-600); margin-bottom: 2rem;">Based on your symptoms and vital signs</p>
+
+                <div class="urgency-banner urgency-routine">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">✅ ROUTINE CARE RECOMMENDED</div>
+                    <div>Your symptoms suggest conditions that can typically be managed with self-care</div>
+                </div>
+
+                <div class="disclaimer disclaimer-critical">
+                    <h3>⚠️ IMPORTANT REMINDER</h3>
+                    <p>These results are for informational purposes only and should NOT replace professional medical advice. If symptoms worsen or you feel concerned, please contact your healthcare provider or call emergency services.</p>
+                </div>
+
+                <!-- Condition Match 1 -->
+                <div class="condition-card">
+                    <div class="condition-header">
+                        <h2>Common Cold (Upper Respiratory Infection)</h2>
+                        <span class="confidence-badge confidence-high">High Match (85%)</span>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: 1rem;">
+                        A viral infection of your nose and throat. Usually harmless and symptoms improve within 7-10 days.
+                    </p>
+                    
+                    <h4>Matched Symptoms:</h4>
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        <li>Runny nose</li>
+                        <li>Sore throat</li>
+                        <li>Cough</li>
+                        <li>Fatigue</li>
+                        <li>Mild fever</li>
+                    </ul>
+
+                    <h4>What to Expect:</h4>
+                    <p>Symptoms typically last 7-10 days. The first 3 days are usually the worst. You're contagious for the first few days after symptoms start.</p>
+
+                    <button class="btn btn-primary" onclick="showSection('treatment')" style="margin-top: 1rem;">View Treatment Recommendations</button>
+                </div>
+
+                <!-- Condition Match 2 -->
+                <div class="condition-card">
+                    <div class="condition-header">
+                        <h2>Viral Pharyngitis</h2>
+                        <span class="confidence-badge confidence-medium">Moderate Match (65%)</span>
+                    </div>
+                    <p style="color: var(--gray-600); margin-bottom: 1rem;">
+                        Inflammation of the throat caused by a viral infection. Similar to common cold with focus on throat symptoms.
+                    </p>
+                    
+                    <h4>Matched Symptoms:</h4>
+                    <ul style="margin-left: 1.5rem;">
+                        <li>Sore throat</li>
+                        <li>Mild fever</li>
+                        <li>Fatigue</li>
+                    </ul>
+                </div>
+
+                <div class="treatment-section">
+                    <h3>When to Seek Medical Care</h3>
+                    <div class="alert alert-danger">
+                        <strong>Seek immediate medical attention if you experience:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Difficulty breathing or shortness of breath</li>
+                            <li>Chest pain or pressure</li>
+                            <li>Fever above 39.4°C (103°F)</li>
+                            <li>Symptoms lasting more than 10 days without improvement</li>
+                            <li>Severe headache or stiff neck</li>
+                            <li>Confusion or difficulty staying awake</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <strong>Contact your doctor if:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Symptoms persist beyond 10 days</li>
+                            <li>You have a chronic condition (diabetes, heart disease, etc.)</li>
+                            <li>Symptoms are severe or worsening</li>
+                            <li>You're pregnant</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn btn-secondary" onclick="showSection('dashboard')">Return to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Treatment Section -->
+    <section id="treatment" class="section">
+        <div class="container">
+            <div class="results-container">
+                <h1>Treatment Recommendations</h1>
+                <p style="color: var(--gray-600); margin-bottom: 2rem;">For Common Cold / Upper Respiratory Infection</p>
+
+                <div class="disclaimer">
+                    <strong>Note:</strong> These are general recommendations. Always read medication labels carefully and consult a pharmacist or doctor if you have questions.
+                </div>
+
+                <!-- Lifestyle Changes -->
+                <div class="treatment-section">
+                    <h3>🏠 Lifestyle & Home Remedies</h3>
+                    <div class="treatment-grid">
+                        <div class="treatment-card">
+                            <h4>Rest & Sleep</h4>
+                            <p>Get plenty of rest. Aim for 8-10 hours of sleep per night to help your immune system fight the infection.</p>
+                        </div>
+                        <div class="treatment-card">
+                            <h4>Stay Hydrated</h4>
+                            <p>Drink plenty of fluids: water, warm lemon water with honey, herbal tea, or clear broths. Aim for 8-10 glasses daily.</p>
+                        </div>
+                        <div class="treatment-card">
+                            <h4>Humidity</h4>
+                            <p>Use a humidifier or breathe steam from a hot shower to ease congestion and soothe irritated airways.</p>
+                        </div>
+                        <div class="treatment-card">
+                            <h4>Saltwater Gargle</h4>
+                            <p>Gargle with warm salt water (1/2 teaspoon salt in 8 oz water) 3-4 times daily to soothe sore throat.</p>
+                        </div>
+                        <div class="treatment-card">
+                            <h4>Wash Hands Frequently</h4>
+                            <p>Prevent spreading the infection by washing hands regularly with soap and water for at least 20 seconds.</p>
+                        </div>
+                        <div class="treatment-card">
+                            <h4>Avoid Irritants</h4>
+                            <p>Stay away from smoke, strong odors, and other irritants that can worsen symptoms.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OTC Medications -->
+                <div class="treatment-section">
+                    <h3>💊 Over-the-Counter Medications</h3>
+                    <p style="color: var(--gray-600); margin-bottom: 1.5rem;">These medications can be purchased without a prescription and may help relieve symptoms:</p>
+
+                    <div class="treatment-grid">
+                        <div class="treatment-card">
+                            <h4>Paracetamol (Acetaminophen)</h4>
+                            <p><strong>Purpose:</strong> Reduces fever and relieves pain</p>
+                            <p><strong>Dosage:</strong> 500-1000mg every 4-6 hours (max 4000mg/24h)</p>
+                            <p><strong>Examples:</strong> Panadol, Calpol</p>
+                            <div class="medication-warning">
+                                <strong>⚠️ Warning:</strong> Do not exceed recommended dose. Avoid if you have liver problems.
+                            </div>
+                        </div>
+
+                        <div class="treatment-card">
+                            <h4>Ibuprofen</h4>
+                            <p><strong>Purpose:</strong> Reduces fever, pain, and inflammation</p>
+                            <p><strong>Dosage:</strong> 200-400mg every 4-6 hours with food</p>
+                            <p><strong>Examples:</strong> Nurofen, Advil</p>
+                            <div class="medication-warning">
+                                <strong>⚠️ Warning:</strong> Take with food. Avoid if you have stomach ulcers or kidney problems.
+                            </div>
+                        </div>
+
+                        <div class="treatment-card">
+                            <h4>Decongestants</h4>
+                            <p><strong>Purpose:</strong> Relieves nasal congestion</p>
+                            <p><strong>Examples:</strong> Pseudoephedrine (Sudafed), Phenylephrine</p>
+                            <p><strong>Note:</strong> Use for no more than 5-7 days</p>
+                            <div class="medication-warning">
+                                <strong>⚠️ Warning:</strong> May raise blood pressure. Avoid if you have high blood pressure or heart disease.
+                            </div>
+                        </div>
+
+                        <div class="treatment-card">
+                            <h4>Cough Suppressants</h4>
+                            <p><strong>Purpose:</strong> Reduces coughing</p>
+                            <p><strong>Active Ingredient:</strong> Dextromethorphan</p>
+                            <p><strong>Examples:</strong> Robitussin DM, Benylin</p>
+                            <div class="medication-warning">
+                                <strong>Note:</strong> Only use for dry cough. Don't suppress productive coughs.
+                            </div>
+                        </div>
+
+                        <div class="treatment-card">
+                            <h4>Expectorants</h4>
+                            <p><strong>Purpose:</strong> Helps loosen mucus</p>
+                            <p><strong>Active Ingredient:</strong> Guaifenesin</p>
+                            <p><strong>Note:</strong> Best for productive coughs with mucus</p>
+                        </div>
+
+                        <div class="treatment-card">
+                            <h4>Throat Lozenges</h4>
+                            <p><strong>Purpose:</strong> Soothes sore throat</p>
+                            <p><strong>Examples:</strong> Strepsils, Halls</p>
+                            <p><strong>Note:</strong> Can be used as needed throughout the day</p>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-warning" style="margin-top: 1.5rem;">
+                        <strong>Important Medication Safety:</strong>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Read all labels carefully before taking any medication</li>
+                            <li>Don't take multiple products containing the same active ingredient</li>
+                            <li>Check for drug interactions with your current medications</li>
+                            <li>Consult a pharmacist if you're pregnant, breastfeeding, or have chronic conditions</li>
+                            <li>Store medications safely away from children</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Diet & Nutrition -->
+                <div class="treatment-section">
+                    <h3>🍽️ Dietary Recommendations</h3>
+                    <div class="treatment-grid">
+                        <div class="treatment-card">
+                            <h4>Vitamin C Rich Foods</h4>
+                            <p>Oranges, strawberries, bell peppers, broccoli, and kiwi may help support immune function.</p>
+                        </div>
+                        <div class="treatment-card">
+                            <h4>Warm Soups & Broths</h4>
+                            <p>Chicken soup, vegetable broth - provides hydration and nutrients. The warmth helps soothe throat.</p>
+                        </div>
+                        <div class="treatment-card">
+                            <h4>Honey & Lemon</h4>
+                            <p>Add to warm water or tea. Honey soothes throat; lemon provides vitamin C. (Not for children under 1 year)</p>
+                        </div>
+                        <div class="treatment-card">
+                            <h4>Ginger Tea</h4>
+                            <p>May help reduce inflammation and soothe digestive upset that sometimes accompanies colds.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Guides -->
+                <div class="treatment-section">
+                    <h3>📹 Educational Resources</h3>
+                    
+                    <div class="visual-guide">
+                        <h4>How to Properly Wash Your Hands</h4>
+                        <div class="video-placeholder">
+                            <div>
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🎥</div>
+                                <p>Video Guide: Proper Handwashing Technique</p>
+                                <button class="btn btn-primary">Watch Video</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="visual-guide" style="margin-top: 2rem;">
+                        <h4>Steam Inhalation for Congestion Relief</h4>
+                        <div class="video-placeholder">
+                            <div>
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">🎥</div>
+                                <p>Video Guide: Safe Steam Inhalation</p>
+                                <button class="btn btn-primary">Watch Video</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recovery Timeline -->
+                <div class="treatment-section">
+                    <h3>📅 Expected Recovery Timeline</h3>
+                    <div style="background: var(--gray-100); padding: 2rem; border-radius: 0.5rem;">
+                        <h4>Typical Cold Progression:</h4>
+                        <ul style="margin-left: 1.5rem; line-height: 2;">
+                            <li><strong>Days 1-3:</strong> Symptoms peak - sore throat, runny nose, fatigue</li>
+                            <li><strong>Days 4-7:</strong> Symptoms improve - less severe but may still have cough and congestion</li>
+                            <li><strong>Days 8-10:</strong> Most symptoms resolve - may have lingering cough</li>
+                            <li><strong>After Day 10:</strong> Should be fully recovered</li>
+                        </ul>
+                        <p style="margin-top: 1rem; color: var(--gray-600);">
+                            If symptoms persist beyond 10 days or worsen, contact your healthcare provider.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Progress Tracker -->
+                <div class="treatment-section">
+                    <h3>📊 Track Your Progress</h3>
+                    <p style="color: var(--gray-600); margin-bottom: 1.5rem;">Monitor your symptoms and treatment effectiveness</p>
+                    
+                    <div class="progress-tracker">
+                        <div class="progress-item">
+                            <input type="checkbox" class="progress-checkbox">
+                            <div>
+                                <strong>Day 1:</strong> Started rest and hydration protocol
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <input type="checkbox" class="progress-checkbox">
+                            <div>
+                                <strong>Day 2:</strong> Taking OTC pain reliever as needed
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <input type="checkbox" class="progress-checkbox">
+                            <div>
+                                <strong>Day 3:</strong> Using humidifier and throat lozenges
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <input type="checkbox" class="progress-checkbox">
+                            <div>
+                                <strong>Day 5:</strong> Symptoms improving
+                            </div>
+                        </div>
+                        <div class="progress-item">
+                            <input type="checkbox" class="progress-checkbox">
+                            <div>
+                                <strong>Day 7:</strong> Reassess symptoms
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log Symptom Update</button>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>💡 Helpful Tip:</strong> Most colds resolve on their own with supportive care. Antibiotics are not effective for viral infections like the common cold.
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                    <button class="btn btn-secondary" onclick="showSection('results')">Back to Results</button>
+                    <button class="btn btn-primary" onclick="showSection('dashboard')">Return to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Global variables
+        let currentWizardStep = 1;
+        const selectedSymptoms = new Set();
+        
+        // Section Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Authentication
+        function handleRegister(event) {
+            event.preventDefault();
+            alert('Registration successful! (Demo mode)');
+            showSection('dashboard');
+            updateNavigation(true);
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            alert('Login successful! Welcome back, John!');
+            showSection('dashboard');
+            updateNavigation(true);
+        }
+
+        function logout() {
+            alert('Logged out successfully');
+            showSection('landing');
+            updateNavigation(false);
+        }
+
+        function updateNavigation(isLoggedIn) {
+            if (isLoggedIn) {
+                document.getElementById('mainNav').classList.add('hidden');
+                document.getElementById('userNav').classList.remove('hidden');
+            } else {
+                document.getElementById('mainNav').classList.remove('hidden');
+                document.getElementById('userNav').classList.add('hidden');
+            }
+        }
+
+        // Symptom Selection
+        function toggleSymptom(checkbox) {
+            const label = checkbox.parentElement;
+            if (checkbox.checked) {
+                label.classList.add('checked');
+                selectedSymptoms.add(checkbox.value);
+            } else {
+                label.classList.remove('checked');
+                selectedSymptoms.delete(checkbox.value);
+            }
+            updateSelectedSymptoms();
+        }
+
+        function updateSelectedSymptoms() {
+            const display = document.getElementById('selectedSymptomsDisplay');
+            const list = document.getElementById('selectedSymptomsList');
+            
+            if (selectedSymptoms.size > 0) {
+                display.classList.remove('hidden');
+                list.textContent = Array.from(selectedSymptoms).map(s => 
+                    s.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+                ).join(', ');
+            } else {
+                display.classList.add('hidden');
+            }
+        }
+
+        function filterByCategory(category) {
+            // Update active category button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.category-btn').classList.add('active');
+
+            // Filter symptoms
+            const symptoms = document.querySelectorAll('.symptom-checkbox');
+            symptoms.forEach(symptom => {
+                if (category === 'all' || symptom.dataset.category === category) {
+                    symptom.style.display = 'flex';
+                } else {
+                    symptom.style.display = 'none';
+                }
+            });
+        }
+
+        function filterSymptoms() {
+            const searchTerm = document.getElementById('symptomSearch').value.toLowerCase();
+            const symptoms = document.querySelectorAll('.symptom-checkbox');
+            
+            symptoms.forEach(symptom => {
+                const text = symptom.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    symptom.style.display = 'flex';
+                } else {
+                    symptom.style.display = 'none';
+                }
+            });
+        }
+
+        // Wizard Navigation
+        function changeWizardStep(direction) {
+            // Validation
+            if (direction === 1 && currentWizardStep === 1 && selectedSymptoms.size === 0) {
+                alert('Please select at least one symptom to continue.');
+                return;
+            }
+
+            // Hide current step
+            document.getElementById(`wizard-step-${currentWizardStep}`).classList.remove('active');
+            document.getElementById(`step-indicator-${currentWizardStep}`).classList.remove('active');
+            if (direction === 1) {
+                document.getElementById(`step-indicator-${currentWizardStep}`).classList.add('completed');
+            }
+
+            // Update step number
+            currentWizardStep += direction;
+
+            // Show new step
+            document.getElementById(`wizard-step-${currentWizardStep}`).classList.add('active');
+            document.getElementById(`step-indicator-${currentWizardStep}`).classList.add('active');
+
+            // Update navigation buttons
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            prevBtn.style.display = currentWizardStep === 1 ? 'none' : 'inline-block';
+            nextBtn.style.display = currentWizardStep === 4 ? 'none' : 'inline-block';
+            submitBtn.style.display = currentWizardStep === 4 ? 'inline-block' : 'none';
+
+            // Generate severity ratings for step 2
+            if (currentWizardStep === 2) {
+                generateSeverityRatings();
+            }
+
+            // Check vitals for warnings in step 3
+            if (currentWizardStep === 3) {
+                setTimeout(checkVitals, 500);
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function generateSeverityRatings() {
+            const container = document.getElementById('severityRatings');
+            
+            if (selectedSymptoms.size === 0) {
+                container.innerHTML = '<div class="alert alert-info">Please select at least one symptom in Step 1 to continue.</div>';
+                return;
+            }
+
+            let html = '';
+            selectedSymptoms.forEach(symptom => {
+                const name = symptom.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                html += `
+                    <div class="vital-card" style="margin-bottom: 1.5rem;">
+                        <h4>${name}</h4>
+                        <div class="form-group">
+                            <label>Severity</label>
+                            <select class="form-control">
+                                <option value="mild">Mild</option>
+                                <option value="moderate">Moderate</option>
+                                <option value="severe">Severe</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Duration</label>
+                            <div class="vital-input">
+                                <input type="number" class="form-control" placeholder="1" min="0" max="365">
+                                <span class="vital-unit">days</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function checkVitals() {
+            const warnings = document.getElementById('vitalWarnings');
+            const hr = parseInt(document.getElementById('heartRate').value);
+            const bpSys = parseInt(document.getElementById('bpSystolic').value);
+            const bpDia = parseInt(document.getElementById('bpDiastolic').value);
+            const temp = parseFloat(document.getElementById('temperature').value);
+            const o2 = parseInt(document.getElementById('oxygenSat').value);
+
+            let warningHtml = '';
+
+            if (hr && (hr > 100 || hr < 60)) {
+                warningHtml += '<div class="alert alert-warning">⚠️ Your heart rate is outside the normal range (60-100 bpm)</div>';
+            }
+            if (bpSys && bpDia && (bpSys > 140 || bpDia > 90)) {
+                warningHtml += '<div class="alert alert-warning">⚠️ Your blood pressure appears elevated. Consider monitoring and consulting a healthcare provider.</div>';
+            }
+            if (bpSys && bpDia && (bpSys > 180 || bpDia > 120)) {
+                warningHtml += '<div class="alert alert-danger">🚨 EMERGENCY: Your blood pressure is dangerously high. Seek immediate medical attention!</div>';
+            }
+            if (temp && temp > 38.5) {
+                warningHtml += '<div class="alert alert-warning">⚠️ You have a fever. Monitor your temperature and stay hydrated.</div>';
+            }
+            if (temp && temp > 39.4) {
+                warningHtml += '<div class="alert alert-danger">🚨 High fever detected. Consider seeking medical attention if it persists.</div>';
+            }
+            if (o2 && o2 < 95) {
+                warningHtml += '<div class="alert alert-danger">🚨 Low oxygen saturation detected. Seek medical attention immediately!</div>';
+            }
+
+            warnings.innerHTML = warningHtml;
+        }
+
+        // Add event listeners for vital signs inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const vitalInputs = ['heartRate', 'bpSystolic', 'bpDiastolic', 'temperature', 'oxygenSat'];
+            vitalInputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('input', checkVitals);
+                }
+            });
+        });
+
+        function submitAssessment() {
+            if (selectedSymptoms.size === 0) {
+                alert('Please select at least one symptom.');
+                return;
+            }
+
+            // Show processing screen
+            showSection('processing');
+
+            // Simulate processing time
+            setTimeout(() => {
+                showSection('results');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
