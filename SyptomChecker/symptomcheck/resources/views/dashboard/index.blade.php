@@ -86,7 +86,7 @@
                     <td>{{ $primary['condition'] ?? 'Pending Analysis' }}</td>
                     <td><span class="text-{{ $urgency === 'emergency' ? 'danger' : ($urgency === 'urgent' ? 'warning' : 'success') }}">{{ ucfirst($urgency) }}</span></td>
                     <td>@auth
-                        <a href="{{ route('symptom.index') }}" class="btn btn-secondary">View Details</a>
+                        <a href="{{ route('consultation.show', $consultation->id) }}" class="btn btn-secondary">View Details</a>
                     @endauth</td>
                 </tr>
                 @endforeach

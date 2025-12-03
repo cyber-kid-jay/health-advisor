@@ -1,12 +1,109 @@
-@extends('layouts.app')
+<!DOCTYPE html>
 
-@section('title', 'Blog - SymptomChecker')
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Blog - HealthAdvisor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    :root {
+        --primary-color: #2563eb;
+        --primary-dark: #1e40af;
+        --secondary-color: #10b981;
+        --danger-color: #ef4444;
+        --warning-color: #f59e0b;
+        --success-color: #10b981;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-300: #d1d5db;
+        --gray-600: #4b5563;
+        --gray-800: #1f2937;
+        --white: #ffffff;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
 
-@section('content')
-<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        line-height: 1.6;
+        color: var(--gray-800);
+        background-color: var(--gray-100);
+    }
+
+    .navbar {
+        background: var(--white);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+    }
+
+    .nav-links a {
+        text-decoration: none;
+        color: var(--gray-600);
+        font-weight: 500;
+        transition: color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: var(--primary-color);
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        color: var(--white);
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+    }
+
     .hero-blog {
-        background: linear-gradient(135deg, #2563eb, #1e40af);
-        color: #ffffff;
+        background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+        color: var(--white);
         padding: 3rem 2rem;
         text-align: center;
     }
@@ -21,6 +118,12 @@
         opacity: 0.9;
     }
 
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
     .blog-layout {
         display: grid;
         grid-template-columns: 1fr 350px;
@@ -29,10 +132,10 @@
     }
 
     .search-filter {
-        background: #ffffff;
+        background: var(--white);
         padding: 1.5rem;
         border-radius: 1rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow);
         margin-bottom: 2rem;
     }
 
@@ -44,9 +147,16 @@
     .search-box input {
         width: 100%;
         padding: 0.75rem 0.75rem 0.75rem 2.5rem;
-        border: 2px solid #d1d5db;
+        border: 2px solid var(--gray-300);
         border-radius: 0.5rem;
         font-size: 1rem;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
     }
 
     .category-filters {
@@ -57,9 +167,9 @@
 
     .category-tag {
         padding: 0.5rem 1rem;
-        border: 2px solid #d1d5db;
+        border: 2px solid var(--gray-300);
         border-radius: 2rem;
-        background: #ffffff;
+        background: var(--white);
         cursor: pointer;
         transition: all 0.3s;
         font-size: 0.875rem;
@@ -68,9 +178,9 @@
 
     .category-tag:hover,
     .category-tag.active {
-        border-color: #2563eb;
-        background: #2563eb;
-        color: #ffffff;
+        border-color: var(--primary-color);
+        background: var(--primary-color);
+        color: var(--white);
     }
 
     .blog-posts {
@@ -80,20 +190,17 @@
     }
 
     .blog-card {
-        background: #ffffff;
+        background: var(--white);
         border-radius: 1rem;
         overflow: hidden;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow);
         transition: transform 0.3s, box-shadow 0.3s;
         cursor: pointer;
-        text-decoration: none;
-        color: inherit;
-        display: block;
     }
 
     .blog-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-lg);
     }
 
     .blog-card-image {
@@ -111,17 +218,23 @@
         gap: 1.5rem;
         margin-bottom: 1rem;
         font-size: 0.875rem;
-        color: #4b5563;
+        color: var(--gray-600);
+    }
+
+    .blog-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
     }
 
     .blog-card h3 {
         font-size: 1.5rem;
         margin-bottom: 0.75rem;
-        color: #1f2937;
+        color: var(--gray-800);
     }
 
     .blog-card p {
-        color: #4b5563;
+        color: var(--gray-600);
         margin-bottom: 1rem;
         line-height: 1.7;
     }
@@ -131,7 +244,7 @@
         justify-content: space-between;
         align-items: center;
         padding-top: 1rem;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--gray-200);
     }
 
     .blog-tags {
@@ -142,10 +255,10 @@
 
     .tag {
         padding: 0.25rem 0.75rem;
-        background: #f3f4f6;
+        background: var(--gray-100);
         border-radius: 1rem;
         font-size: 0.75rem;
-        color: #4b5563;
+        color: var(--gray-600);
     }
 
     .sidebar {
@@ -155,27 +268,24 @@
     }
 
     .sidebar-card {
-        background: #ffffff;
+        background: var(--white);
         padding: 1.5rem;
         border-radius: 1rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow);
     }
 
     .sidebar-card h3 {
         margin-bottom: 1rem;
-        color: #2563eb;
-        border-bottom: 2px solid #e5e7eb;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--gray-200);
         padding-bottom: 0.5rem;
     }
 
     .popular-post {
         padding: 1rem 0;
-        border-bottom: 1px solid #e5e7eb;
+        border-bottom: 1px solid var(--gray-200);
         cursor: pointer;
         transition: background 0.3s;
-        text-decoration: none;
-        color: inherit;
-        display: block;
     }
 
     .popular-post:last-child {
@@ -183,7 +293,7 @@
     }
 
     .popular-post:hover {
-        background: #f3f4f6;
+        background: var(--gray-100);
         margin: 0 -0.5rem;
         padding: 1rem 0.5rem;
         border-radius: 0.5rem;
@@ -192,12 +302,12 @@
     .popular-post h4 {
         font-size: 0.95rem;
         margin-bottom: 0.5rem;
-        color: #1f2937;
+        color: var(--gray-800);
     }
 
     .popular-post p {
         font-size: 0.8rem;
-        color: #4b5563;
+        color: var(--gray-600);
     }
 
     .newsletter {
@@ -207,14 +317,14 @@
     .newsletter input {
         width: 100%;
         padding: 0.75rem;
-        border: 2px solid #d1d5db;
+        border: 2px solid var(--gray-300);
         border-radius: 0.5rem;
         margin: 1rem 0;
     }
 
     .disclaimer {
         background: #fef3c7;
-        border-left: 4px solid #f59e0b;
+        border-left: 4px solid var(--warning-color);
         padding: 1rem;
         margin: 2rem 0;
         border-radius: 0.5rem;
@@ -222,10 +332,10 @@
     }
 
     .featured-post {
-        background: #ffffff;
+        background: var(--white);
         border-radius: 1rem;
         overflow: hidden;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-lg);
         margin-bottom: 3rem;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -246,8 +356,8 @@
     }
 
     .featured-badge {
-        background: #f59e0b;
-        color: #ffffff;
+        background: var(--warning-color);
+        color: var(--white);
         padding: 0.25rem 0.75rem;
         border-radius: 1rem;
         font-size: 0.75rem;
@@ -260,7 +370,7 @@
     .featured-content h2 {
         font-size: 2rem;
         margin-bottom: 1rem;
-        color: #1f2937;
+        color: var(--gray-800);
     }
 
     @media (max-width: 968px) {
@@ -275,9 +385,33 @@
         .featured-image {
             min-height: 200px;
         }
+
+        .nav-links {
+            display: none;
+        }
     }
 </style>
+```
 
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="https://www.google.com/search?q=home" class="logo">
+                <span>🏥</span>
+                HealthAdvisor
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://www.google.com/search?q=home">Home</a></li>
+                <li><a href="https://www.google.com/search?q=blog" class="active">Blog</a></li>
+                <li><a href="https://www.google.com/search?q=about">About</a></li>
+                <li><a href="https://www.google.com/search?q=login">Login</a></li>
+            </ul>
+            <a href="https://www.google.com/search?q=get+started" class="btn btn-primary">Get Started</a>
+        </div>
+    </nav>
+
+```
 <div class="hero-blog">
     <h1>Health & Wellness Blog</h1>
     <p>Expert insights, tips, and the latest health information</p>
@@ -308,7 +442,7 @@
         <div class="featured-content">
             <span class="featured-badge">FEATURED</span>
             <h2>10 Evidence-Based Ways to Boost Your Immune System</h2>
-            <p style="color: #4b5563; margin-bottom: 1.5rem;">
+            <p style="color: var(--gray-600); margin-bottom: 1.5rem;">
                 Discover scientifically proven methods to strengthen your body's natural defenses and maintain optimal health throughout the year.
             </p>
             <div class="blog-meta">
@@ -316,13 +450,13 @@
                 <span>👤 Dr. Sarah Mitchell</span>
                 <span>⏱️ 8 min read</span>
             </div>
-            <a href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/immune-system/faq-20057645" target="_blank" rel="noopener" class="btn btn-primary" style="width: fit-content; margin-top: 1rem;">Read Article</a>
+            <a href="https://www.google.com/search?q=boost+immune+system" class="btn btn-primary" style="width: fit-content; margin-top: 1rem;">Read Article</a>
         </div>
     </div>
 
     <div class="blog-layout">
         <div class="blog-posts">
-            <a href="https://www.cdc.gov/flu/prevent/actions-to-take.html" target="_blank" rel="noopener" class="blog-card" data-category="seasonal">
+            <a href="https://www.google.com/search?q=preventing+cold+and+flu" class="blog-card" data-category="seasonal" style="text-decoration: none; color: inherit;">
                 <img src="https://images.unsplash.com/photo-1584515933487-779824d29309?w=800&h=500&fit=crop" alt="Person with cold symptoms" class="blog-card-image">
                 <div class="blog-card-content">
                     <div class="blog-meta">
@@ -344,7 +478,7 @@
                 </div>
             </a>
 
-            <a href="https://www.health.harvard.edu/staying-healthy/foods-that-fight-inflammation" target="_blank" rel="noopener" class="blog-card" data-category="nutrition">
+            <a href="https://www.google.com/search?q=anti+inflammatory+foods" class="blog-card" data-category="nutrition" style="text-decoration: none; color: inherit;">
                 <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop" alt="Healthy salad bowl" class="blog-card-image">
                 <div class="blog-card-content">
                     <div class="blog-meta">
@@ -366,7 +500,7 @@
                 </div>
             </a>
 
-            <a href="https://www.mayoclinic.org/healthy-lifestyle/stress-management/in-depth/stress-relief/art-20044456" target="_blank" rel="noopener" class="blog-card" data-category="mental-health">
+            <a href="https://www.google.com/search?q=stress+management+techniques" class="blog-card" data-category="mental-health" style="text-decoration: none; color: inherit;">
                 <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&h=500&fit=crop" alt="Person meditating peacefully" class="blog-card-image">
                 <div class="blog-card-content">
                     <div class="blog-meta">
@@ -388,7 +522,7 @@
                 </div>
             </a>
 
-            <a href="https://www.cdc.gov/physicalactivity/basics/adults/index.htm" target="_blank" rel="noopener" class="blog-card" data-category="fitness">
+            <a href="https://www.google.com/search?q=beginner+fitness+guide" class="blog-card" data-category="fitness" style="text-decoration: none; color: inherit;">
                 <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&h=500&fit=crop" alt="Person exercising outdoors" class="blog-card-image">
                 <div class="blog-card-content">
                     <div class="blog-meta">
@@ -410,7 +544,7 @@
                 </div>
             </a>
 
-            <a href="https://www.mayoclinic.org/healthy-lifestyle/preventive-health/in-depth/preventive-care/art-20045699" target="_blank" rel="noopener" class="blog-card" data-category="prevention">
+            <a href="https://www.google.com/search?q=preventive+healthcare+screenings" class="blog-card" data-category="prevention" style="text-decoration: none; color: inherit;">
                 <img src="https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=800&h=500&fit=crop" alt="Medical checkup" class="blog-card-image">
                 <div class="blog-card-content">
                     <div class="blog-meta">
@@ -432,7 +566,7 @@
                 </div>
             </a>
 
-            <a href="https://www.nhlbi.nih.gov/education/dash-eating-plan" target="_blank" rel="noopener" class="blog-card" data-category="nutrition">
+            <a href="https://www.google.com/search?q=foods+for+blood+pressure" class="blog-card" data-category="nutrition" style="text-decoration: none; color: inherit;">
                 <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=500&fit=crop" alt="Fresh fruits and vegetables" class="blog-card-image">
                 <div class="blog-card-content">
                     <div class="blog-meta">
@@ -458,40 +592,49 @@
         <aside class="sidebar">
             <div class="sidebar-card">
                 <h3>Popular Articles</h3>
-                <a href="https://www.mayoclinic.org/symptoms/chest-pain/basics/when-to-see-doctor/sym-20050013" target="_blank" rel="noopener" class="popular-post">
+                <a href="https://www.google.com/search?q=signs+to+see+a+doctor" class="popular-post" style="text-decoration: none; color: inherit; display: block;">
                     <h4>5 Signs You Should See a Doctor</h4>
                     <p>Learn to recognize warning signs</p>
                 </a>
-                <a href="https://www.cdc.gov/sleep/about_sleep/sleep-hygiene.html" target="_blank" rel="noopener" class="popular-post">
+                <a href="https://www.google.com/search?q=sleep+hygiene+tips" class="popular-post" style="text-decoration: none; color: inherit; display: block;">
                     <h4>Sleep Hygiene: Better Rest Tonight</h4>
                     <p>Science-backed sleep tips</p>
                 </a>
-                <a href="https://www.mayoclinic.org/diseases-conditions/laboratory-tests/basics/definition/LAB-20020865" target="_blank" rel="noopener" class="popular-post">
+                <a href="https://www.google.com/search?q=understanding+blood+test+results" class="popular-post" style="text-decoration: none; color: inherit; display: block;">
                     <h4>Understanding Your Blood Test Results</h4>
                     <p>A patient's guide to lab work</p>
                 </a>
-                <a href="https://www.cdc.gov/nutrition/data-statistics/added-sugars.html" target="_blank" rel="noopener" class="popular-post">
+                <a href="https://www.google.com/search?q=daily+water+intake" class="popular-post" style="text-decoration: none; color: inherit; display: block;">
                     <h4>Hydration: How Much Water Do You Need?</h4>
                     <p>Separating fact from fiction</p>
                 </a>
             </div>
 
+            <div class="sidebar-card newsletter">
+                <h3>Stay Updated</h3>
+                <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: 1rem;">
+                    Get the latest health tips delivered to your inbox
+                </p>
+                <input type="email" placeholder="Your email address">
+                <button class="btn btn-primary" style="width: 100%;">Subscribe</button>
+            </div>
+
             <div class="sidebar-card">
                 <h3>Categories</h3>
                 <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                    <a href="#" style="color: #4b5563; text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
+                    <a href="https://www.google.com/search?q=health+prevention+tips" style="color: var(--gray-600); text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
                         <span style="margin-right: 0.5rem;">🛡️</span> Prevention (12)
                     </a>
-                    <a href="#" style="color: #4b5563; text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
+                    <a href="https://www.google.com/search?q=nutrition+and+diet" style="color: var(--gray-600); text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
                         <span style="margin-right: 0.5rem;">🥗</span> Nutrition (18)
                     </a>
-                    <a href="#" style="color: #4b5563; text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
+                    <a href="https://www.google.com/search?q=fitness+and+exercise" style="color: var(--gray-600); text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
                         <span style="margin-right: 0.5rem;">🏃</span> Fitness (15)
                     </a>
-                    <a href="#" style="color: #4b5563; text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
+                    <a href="https://www.google.com/search?q=mental+health+wellness" style="color: var(--gray-600); text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
                         <span style="margin-right: 0.5rem;">🧠</span> Mental Health (9)
                     </a>
-                    <a href="#" style="color: #4b5563; text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
+                    <a href="https://www.google.com/search?q=seasonal+health+tips" style="color: var(--gray-600); text-decoration: none; padding: 0.5rem; border-radius: 0.25rem; transition: background 0.3s;">
                         <span style="margin-right: 0.5rem;">❄️</span> Seasonal (6)
                     </a>
                 </div>
@@ -532,5 +675,18 @@
             }
         });
     });
+
+    // Prevent navigation links from propagating
+    document.querySelectorAll('.blog-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (!e.target.closest('a')) {
+                window.location.href = this.href;
+            }
+        });
+    });
 </script>
-@endsection
+```
+
+</body>
+</html>
+

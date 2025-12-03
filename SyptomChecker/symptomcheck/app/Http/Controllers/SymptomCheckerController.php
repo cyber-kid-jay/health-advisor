@@ -48,60 +48,69 @@ class SymptomCheckerController extends Controller
         $severityData = $data['symptom_severity'] ?? [];
         $durationData = $data['symptom_duration'] ?? [];
 
-        // Calculate vital abnormality scores
+        // Calculate vital abnormality count and normalized vital score (0..1)
         $vitalAbormalities = 0;
         if (!empty($data['bp_systolic']) && $data['bp_systolic'] >= 140) $vitalAbormalities++;
         if (!empty($data['bp_diastolic']) && $data['bp_diastolic'] >= 90) $vitalAbormalities++;
         if (!empty($data['temperature']) && $data['temperature'] >= 38.0) $vitalAbormalities++;
         if (!empty($data['heart_rate']) && ($data['heart_rate'] < 60 || $data['heart_rate'] > 100)) $vitalAbormalities++;
-        $vitalAbnormalityMultiplier = 1 + ($vitalAbormalities * 0.15); // 15% boost per abnormality
+        $vitalScore = min(1.0, $vitalAbormalities / 4); // normalized 0..1
 
-        // Fetch relevant conditions and score them based on pivot weight + severity multipliers
-        $conditions = Condition::with(['symptoms' => function ($q) use ($symptomIds) {
-                $q->whereIn('symptom_id', $symptomIds);
-            }, 'treatments'])
+        // Fetch relevant conditions (load full symptoms list so coverage is computed correctly)
+        $conditions = Condition::with(['symptoms', 'treatments'])
             ->whereHas('symptoms', function ($q) use ($symptomIds) {
                 $q->whereIn('symptom_id', $symptomIds);
             })
             ->get()
-            ->map(function (Condition $condition) use ($symptomIds, $severityData, $vitalAbnormalityMultiplier) {
-                // Calculate severity-adjusted score for matched symptoms
-                $severityAdjustedScore = 0;
-                foreach ($condition->symptoms->whereIn('id', $symptomIds) as $symptom) {
-                    $baseWeight = $symptom->pivot->weight ?? 1;
+            ->map(function (Condition $condition) use ($symptomIds, $severityData, $vitalScore) {
+                // Collect all symptoms for this condition (weights come from pivot)
+                $allSymptoms = $condition->symptoms;
+
+                // Sum total weight for condition (all symptoms)
+                $totalWeightAll = 0.0;
+                foreach ($allSymptoms as $s) {
+                    $totalWeightAll += ($s->pivot->weight ?? 1);
+                }
+                $totalWeightAll = max($totalWeightAll, 1.0);
+
+                // Matched symptoms (those in the user's selection)
+                $matched = $allSymptoms->whereIn('id', $symptomIds);
+
+                // Sum matched weights and compute severity-adjusted score
+                $matchedWeightSum = 0.0;
+                $severityAdjustedScore = 0.0;
+                foreach ($matched as $symptom) {
+                    $w = ($symptom->pivot->weight ?? 1);
+                    $matchedWeightSum += $w;
                     $symId = $symptom->id;
                     $severity = $severityData[$symId] ?? 'moderate';
-                    $severityMultiplier = $severity === 'severe' ? 2.0 : ($severity === 'moderate' ? 1.5 : 1.0);
-                    $severityAdjustedScore += $baseWeight * $severityMultiplier;
+                    // Severity multipliers: mild=0.9, moderate=1.0, severe=1.4 (safer, less extreme)
+                    $severityMultiplier = $severity === 'severe' ? 1.4 : ($severity === 'moderate' ? 1.0 : 0.9);
+                    $severityAdjustedScore += $w * $severityMultiplier;
                 }
 
-                // Compute maximum possible score for this condition (if all symptoms were selected at 'severe')
-                $totalPossible = 0;
-                foreach ($condition->symptoms as $symptom) {
-                    $weight = $symptom->pivot->weight ?? 1;
-                    $totalPossible += $weight * 2.0; // 2.0 = severe multiplier
-                }
+                // Symptom coverage: fraction of total condition weight matched (0..1)
+                $coverage = $matchedWeightSum / $totalWeightAll;
 
-                $matchCount = $condition->symptoms->whereIn('id', $symptomIds)->count();
-                $totalForCondition = max($condition->symptoms->count(), 1);
-                $matchRatio = $matchCount / $totalForCondition;
+                // Severity ratio: how severe the matched symptoms are relative to max possible for those matched
+                $maxSeverityForMatched = $matchedWeightSum * 1.4; // using 1.4 as maximal multiplier above
+                $severityRatio = $maxSeverityForMatched > 0 ? ($severityAdjustedScore / $maxSeverityForMatched) : 0.0;
 
-                // Normalized severity (0..1)
-                $normalizedSeverity = $totalPossible > 0 ? ($severityAdjustedScore / $totalPossible) : 0;
-
-                // Combine normalized severity and match ratio (weighted) then apply vital multiplier
-                $combined = ($normalizedSeverity * 0.75) + ($matchRatio * 0.25);
-                $confidence = min(1.0, $combined * $vitalAbnormalityMultiplier);
+                // Combine factors with conservative weighting: coverage most important
+                $confidenceRaw = (0.65 * $coverage) + (0.25 * $severityRatio) + (0.10 * $vitalScore);
+                $confidence = max(0.0, min(1.0, $confidenceRaw));
 
                 return [
-                    'condition'      => $condition,
-                    'rawSeverityScore'=> $severityAdjustedScore,
-                    'totalPossible'  => $totalPossible,
-                    'normalizedSeverity' => $normalizedSeverity,
-                    'confidence'     => $confidence,
-                    'matchRatio'     => $matchRatio,
-                    'matchCount'     => $matchCount,
-                    'totalSymptoms'  => $totalForCondition,
+                    'condition' => $condition,
+                    'matchedWeight' => $matchedWeightSum,
+                    'totalWeight' => $totalWeightAll,
+                    'coverage' => $coverage,
+                    'severityAdjustedScore' => $severityAdjustedScore,
+                    'severityRatio' => $severityRatio,
+                    'vitalScore' => $vitalScore,
+                    'confidence' => $confidence,
+                    'matchCount' => $matched->count(),
+                    'totalSymptoms' => max($allSymptoms->count(), 1),
                 ];
             })
             ->sortByDesc('confidence')
@@ -132,7 +141,8 @@ class SymptomCheckerController extends Controller
                     'condition'  => $condition->name,
                     'urgency'    => $condition->urgency_level,
                     'confidence' => isset($row['confidence']) ? round($row['confidence'] * 100) : null,
-                    'matchRatio' => $row['matchRatio'],
+                    'coverage'   => isset($row['coverage']) ? round($row['coverage'] * 100, 1) : null,
+                    'severityRatio' => isset($row['severityRatio']) ? round($row['severityRatio'] * 100, 1) : null,
                 ];
             })->toArray(),
         ]);
@@ -156,6 +166,23 @@ class SymptomCheckerController extends Controller
             'conditions'   => $conditions,
             'selectedSymptoms' => Symptom::whereIn('id', $symptomIds)->orderBy('name')->get(),
             'consultation' => $consultation,
+        ]);
+    }
+
+    /**
+     * Show consultation details.
+     */
+    public function showConsultation($id)
+    {
+        $consultation = Consultation::where('id', $id)
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
+
+        $selectedSymptoms = $consultation->symptoms()->get();
+
+        return view('symptom_checker.consultation_detail', [
+            'consultation' => $consultation,
+            'selectedSymptoms' => $selectedSymptoms,
         ]);
     }
 }

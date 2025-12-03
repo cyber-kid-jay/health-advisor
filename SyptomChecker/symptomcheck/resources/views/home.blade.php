@@ -16,7 +16,7 @@
 <div class="container">
     <!-- Critical Medical Disclaimer -->
     <div class="disclaimer disclaimer-critical">
-        <h3>⚠️ IMPORTANT MEDICAL DISCLAIMER</h3>
+        <h3>IMPORTANT MEDICAL DISCLAIMER</h3>
         <p><strong>This system is NOT a substitute for professional medical advice, diagnosis, or treatment.</strong></p>
         <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
             <li>Always seek the advice of your physician or other qualified health provider</li>
@@ -30,22 +30,30 @@
     <h2 class="text-center">How It Works</h2>
     <div class="features">
         <div class="feature-card">
-            <div class="feature-icon">📋</div>
+            <div class="feature-icon" style="border-radius: 8px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center; height: 100px; width: 100px; margin: 0 auto;">
+                <img src="{{ asset('images/describe-symptoms.jpg') }}" alt="Describe Your Symptoms" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
             <h3>1. Describe Your Symptoms</h3>
             <p>Select from a comprehensive list of symptoms and rate their severity</p>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">💓</div>
+            <div class="feature-icon" style="border-radius: 8px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center; height: 100px; width: 100px; margin: 0 auto;">
+                <img src="{{ asset('images/enter-vital-signs.jpg') }}" alt="Enter Vital Signs" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
             <h3>2. Enter Vital Signs</h3>
             <p>Input your heart rate, blood pressure, and other vital measurements</p>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">🤖</div>
+            <div class="feature-icon" style="border-radius: 8px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center; height: 100px; width: 100px; margin: 0 auto;">
+                <img src="{{ asset('images/get-analysis.jpg') }}" alt="Get Analysis" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
             <h3>3. Get Analysis</h3>
             <p>Our intelligent system analyzes your data and matches potential conditions</p>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">💊</div>
+            <div class="feature-icon" style="border-radius: 8px; overflow: hidden; background: #f0f0f0; display: flex; align-items: center; justify-content: center; height: 100px; width: 100px; margin: 0 auto;">
+                <img src="{{ asset('images/recieve-reccomendations.jpg') }}" alt="Receive Recommendations" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
             <h3>4. Receive Recommendations</h3>
             <p>Get personalized treatment suggestions, lifestyle advice, and educational resources</p>
         </div>
@@ -56,27 +64,27 @@
         <h2 class="text-center mb-4">Why Choose SymptomChecker?</h2>
         <div class="dashboard-grid">
             <div class="dashboard-card">
-                <h3>🎯 Accurate Matching</h3>
+                <h3>Accurate Matching</h3>
                 <p>Our algorithm matches your symptoms to 20+ medical conditions using weighted analysis to provide the most relevant matches.</p>
             </div>
             <div class="dashboard-card">
-                <h3>⚡ Quick Assessment</h3>
+                <h3>Quick Assessment</h3>
                 <p>Get results in seconds. No waiting for appointments or lengthy consultations. Perfect for quick health checks.</p>
             </div>
             <div class="dashboard-card">
-                <h3>📊 Vital Signs Analysis</h3>
+                <h3>Vital Signs Analysis</h3>
                 <p>Incorporates your blood pressure, heart rate, and temperature for comprehensive health assessment and risk detection.</p>
             </div>
             <div class="dashboard-card">
-                <h3>💡 Educational Resources</h3>
+                <h3>Educational Resources</h3>
                 <p>Learn about conditions, get treatment recommendations, lifestyle tips, and dietary guidance for your health.</p>
             </div>
             <div class="dashboard-card">
-                <h3>🏥 Medical Guidance</h3>
+                <h3>Medical Guidance</h3>
                 <p>Clear indicators of when to seek emergency care, urgent medical attention, or routine check-ups.</p>
             </div>
             <div class="dashboard-card">
-                <h3>🔒 Privacy Protected</h3>
+                <h3>Privacy Protected</h3>
                 <p>Your health data is private and secure. We never share your information with third parties.</p>
             </div>
         </div>

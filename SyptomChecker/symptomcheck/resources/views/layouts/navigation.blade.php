@@ -1,31 +1,37 @@
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Branding -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('home') }}" class="text-lg font-semibold text-gray-800">{{ config('app.name', 'SymptomChecker') }}</a>
-                </div>
+        <div class="flex justify-between h-16 items-center">
+            <!-- Branding -->
+            <div class="shrink-0 flex items-center">
+                <a href="{{ route('home') }}" class="text-lg font-semibold text-gray-800 hover:text-gray-800 hover:no-underline no-underline" style="text-decoration:none">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="{{ config('app.name', 'SymptomChecker') }}" style="height: 64px; width: auto; object-fit: contain;">
+                </a>
+            </div>
 
-                <!-- Navigation Links -->
-                <div class="sm:flex sm:items-center sm:ms-10 space-x-8">
-                    @auth
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+            <!-- Centered Navigation Links -->
+            <div class="flex-1 flex items-center justify-center">
+                <div class="sm:flex sm:items-center space-x-6">
+                    <x-nav-link :href="route('blog')" :active="request()->routeIs('blog')">
+                        {{ __('Blog') }}
                     </x-nav-link>
+                    @auth
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
                     @endauth
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <!-- Right Side Navigation -->
+            <div class="nav-right sm:flex sm:items-center sm:ms-6" style="gap:1rem;">
                 @auth
+                <!-- User Dropdown for authenticated users -->
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ Auth::user()->name }}</div>
-
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -33,16 +39,13 @@
                             </div>
                         </button>
                     </x-slot>
-
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-
-                        <!-- Authentication -->
+                        <!-- Logout -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
@@ -51,15 +54,11 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
-                <!-- Visible logout button for desktop (sm+). Keeps the dropdown for profile, but provides one-click logout on larger screens -->
-                <!-- <form method="POST" action="{{ route('logout') }}" class="ms-4 hidden sm:inline-flex">
-                    @csrf
-                    <button type="submit" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-100 focus:outline-none">Log Out</button>
-                </form> -->
                 @else
-                <div class="hidden sm:flex sm:items-center space-x-4">
-                    <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900">Sign In</a>
-                    <a href="{{ route('register') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">Register</a>
+                <!-- Login button for guest users -->
+                <div class="flex items-center" style="gap:12px;">
+                    <a href="{{ route('login') }}" class="btn btn-secondary" role="button">Login</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Sign Up</a>
                 </div>
                 @endauth
             </div>
@@ -114,8 +113,8 @@
         @else
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4 space-y-2">
-                <a href="{{ route('login') }}" class="block px-4 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded">Sign In</a>
-                <a href="{{ route('register') }}" class="block px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Register</a>
+                <a href="{{ route('login') }}" class="block btn btn-secondary w-full text-center">Sign In</a>
+                <a href="{{ route('register') }}" class="block btn btn-primary w-full text-center">Register</a>
             </div>
         </div>
         @endauth

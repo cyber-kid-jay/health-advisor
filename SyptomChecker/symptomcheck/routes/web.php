@@ -22,6 +22,12 @@ Route::middleware('auth')->group(function () {
     // Backwards-compatible route names used across views
     Route::get('/symptom', [SymptomCheckerController::class, 'index'])->name('symptom.index');
     Route::post('/symptom/check', [SymptomCheckerController::class, 'analyze'])->name('symptom.check');
+    
+    // Consultation detail view
+    Route::get('/consultation/{id}', [SymptomCheckerController::class, 'showConsultation'])->name('consultation.show');
+
+    // Treatment page
+    Route::view('/treatment', 'symptom_checker.treatment')->name('treatment');
 });
 
 Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');

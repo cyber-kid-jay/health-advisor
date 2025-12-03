@@ -5,7 +5,7 @@
 @section('content')
 <div class="container results-container" style="max-width: 900px; margin: 2rem auto; padding: 2rem;">
     <h1 style="margin-bottom: 0.5rem;">Assessment Results</h1>
-    <p style="color: var(--gray-600); margin-bottom: 2rem;">Based on your symptoms and vital signs</p>
+    <p style="color: var(--gray-600); margin-bottom: 2rem;">{{ $consultation->created_at->format('l, M d, Y \@ H:i') }}</p>
 
     @php
         $firstUrgency = null;
@@ -36,58 +36,35 @@
         <p>These results are for informational purposes only and should NOT replace professional medical advice. If symptoms worsen or you feel concerned, please contact your healthcare provider or call emergency services.</p>
     </div>
 
-    @if ($consultation->healthVital)
-        @php $vitals = $consultation->healthVital; @endphp
-        
-        <div style="background: var(--white); padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow); margin-bottom: 2rem;">
-            <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Your Health Vitals</h3>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-                @if ($vitals->blood_pressure_systolic && $vitals->blood_pressure_diastolic)
-                    <div>
-                        <p style="margin-bottom: 0.5rem;"><strong>Blood Pressure</strong></p>
-                        <p style="font-size: 1.3rem; font-weight: bold; margin: 0.5rem 0;">{{ $vitals->blood_pressure_systolic }}/{{ $vitals->blood_pressure_diastolic }} mmHg</p>
-                    </div>
-                @endif
-            </div>
-        </div>
-    @endif
-
     <!-- Condition Matches -->
     <div style="margin-bottom: 2rem;">
-        @if(isset($conditions) && $conditions->count())
-            @php
-                $selectedIds = $selectedSymptoms->pluck('id')->toArray();
-                $severityMap = $consultation->severity_data ?? [];
-            @endphp
-
-            @foreach($conditions as $idx => $row)
+        @if(!empty($consultation->result_summary) && is_array($consultation->result_summary))
+            @foreach($consultation->result_summary as $idx => $row)
                 @php
-                    $condition = $row['condition'] ?? null;
-                    $confidenceDecimal = isset($row['confidence']) ? (float) $row['confidence'] : 0.0;
-                    $scorePercent = round($confidenceDecimal * 100);
-                    if($confidenceDecimal >= 0.8) {
-                        $confidenceClass = 'confidence-high';
+                    // Use stored confidence (%) when available; fall back to legacy 'score'
+                    $score = null;
+                    if (isset($row['confidence'])) {
+                        $score = (float) $row['confidence'];
+                    } elseif (isset($row['score'])) {
+                        $score = (float) $row['score'];
+                    }
+                    $score = $score ?? 0;
+                    if($score >= 80) {
+                        $confidence = 'confidence-high';
                         $confText = 'High Match';
-                    } elseif($confidenceDecimal >= 0.5) {
-                        $confidenceClass = 'confidence-medium';
+                    } elseif($score >= 50) {
+                        $confidence = 'confidence-medium';
                         $confText = 'Moderate Match';
                     } else {
-                        $confidenceClass = 'confidence-low';
+                        $confidence = 'confidence-low';
                         $confText = 'Low Match';
-                    }
-
-                    // matched symptoms for this condition
-                    $matched = collect();
-                    if($condition) {
-                        $matched = $condition->symptoms->whereIn('id', $selectedIds);
                     }
                 @endphp
 
                 <div class="condition-card" style="background: var(--white); padding: 1.5rem; border-radius: 0.75rem; box-shadow: var(--shadow); margin-bottom: 1.5rem; border-left: 4px solid var(--primary-color);">
                     <div class="condition-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
-                        <h2 style="margin-bottom: 0; color: var(--primary-color); font-size: 1.5rem;">{{ $condition->name ?? ($row['condition']->name ?? 'Unknown Condition') }}</h2>
-                        <span class="confidence-badge {{ $confidenceClass }}" style="padding: 0.5rem 1rem; border-radius: 9999px; font-weight: bold; white-space: nowrap;">{{ $confText }} ({{ $scorePercent }}%)</span>
+                        <h2 style="margin-bottom: 0; color: var(--primary-color); font-size: 1.5rem;">{{ $row['condition'] ?? 'Unknown Condition' }}</h2>
+                        <span class="confidence-badge {{ $confidence }}" style="padding: 0.5rem 1rem; border-radius: 9999px; font-weight: bold; white-space: nowrap;">{{ $confText }} ({{ round($score) }}%)</span>
                     </div>
 
                     @if(!empty($row['notes']))
@@ -95,24 +72,11 @@
                     @endif
 
                     <h4 style="margin-bottom: 0.5rem;">Matched Symptoms:</h4>
-                    @if($matched->count())
-                        <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
-                            @foreach($matched as $symptom)
-                                @php
-                                    $sid = $symptom->id;
-                                    $sev = $severityMap[$sid]['severity'] ?? null;
-                                @endphp
-                                <li>
-                                    <strong>{{ $symptom->name }}</strong>
-                                    @if($sev)
-                                        <span style="margin-left:0.5rem; font-size:0.85rem; color:var(--gray-600);">— {{ ucfirst($sev) }}</span>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    @else
-                        <p style="color: var(--gray-600); margin-bottom: 1rem;">No matched symptoms from your selection for this condition.</p>
-                    @endif
+                    <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                        @foreach($selectedSymptoms as $symptom)
+                            <li>{{ $symptom->name }}</li>
+                        @endforeach
+                    </ul>
 
                     @if($idx === 0)
                         <h4 style="margin-bottom: 0.5rem;">What to Expect:</h4>
@@ -156,55 +120,7 @@
     <!-- Actions -->
     <div style="text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
         <a href="{{ route('dashboard') }}" class="btn btn-primary">Return to Dashboard</a>
-        <a href="{{ route('symptom-checker') }}" class="btn btn-secondary">Start New Assessment</a>
+        <a href="{{ route('symptom.index') }}" class="btn btn-secondary">Start New Assessment</a>
     </div>
 </div>
-
-<style>
-    .confidence-badge {
-        display: inline-block;
-        padding: 0.5rem 1rem;
-        border-radius: 2rem;
-        font-weight: bold;
-        font-size: 0.85rem;
-    }
-
-    .confidence-badge.confidence-high {
-        background: #d1fae5;
-        color: #065f46;
-    }
-
-    .confidence-badge.confidence-medium {
-        background: #fef3c7;
-        color: #92400e;
-    }
-
-    .confidence-badge.confidence-low {
-        background: #fee2e2;
-        color: #991b1b;
-    }
-
-    .urgency-banner {
-        color: var(--white);
-        padding: 1.5rem;
-        border-radius: 0.5rem;
-        margin-bottom: 2rem;
-        font-weight: bold;
-        text-align: center;
-        box-shadow: var(--shadow-lg);
-    }
-
-    .urgency-banner.urgency-emergency {
-        background: var(--danger-color);
-    }
-
-    .urgency-banner.urgency-urgent {
-        background: var(--warning-color);
-    }
-
-    .urgency-banner.urgency-routine {
-        background: var(--success-color);
-    }
-</style>
-
 @endsection

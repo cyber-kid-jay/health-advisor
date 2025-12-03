@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Consultation;
 use App\Models\HealthVital;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -58,9 +59,9 @@ class DashboardController extends Controller
         $userConsultationIds = Consultation::where('user_id', $user->id)->pluck('id');
         
         if ($userConsultationIds->isNotEmpty()) {
-            $symptomCounts = \DB::table('consultation_symptom')
+            $symptomCounts = DB::table('consultation_symptom')
                 ->whereIn('consultation_id', $userConsultationIds)
-                ->select('symptom_id', \DB::raw('count(*) as count'))
+                ->select('symptom_id', DB::raw('count(*) as count'))
                 ->groupBy('symptom_id')
                 ->orderByDesc('count')
                 ->first();
