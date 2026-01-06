@@ -401,20 +401,9 @@ img {
     font-size: 3rem;
     margin-bottom: var(--spacing-md);
     display: inline-block;
-    animation: bounce 2s ease-in-out infinite;
-}
-
-@keyframes bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
 }
 
 .feature-card:hover .feature-icon {
-    animation: none;
     transform: scale(1.1);
 }
 
