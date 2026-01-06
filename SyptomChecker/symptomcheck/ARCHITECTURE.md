@@ -110,7 +110,7 @@
 ┌─────────────────────────────────────────────────────────────────┐
 │                      DATABASE LAYER                             │
 ├─────────────────────────────────────────────────────────────────┤
-│  PostgreSQL Database:                                           │
+│  MySQL Database:                                           │
 │                                                                 │
 │  CORE TABLES:                                                   │
 │  ├─ users                                                       │
@@ -251,7 +251,7 @@ User clicks article → Opens external health resource
 - **Framework**: Laravel 12.0
 - **Language**: PHP 8.2+
 - **ORM**: Eloquent
-- **Database**: PostgreSQL (migrated from SQLite)
+- **Database**: MySQL
 - **Authentication**: Laravel Breeze (built-in auth scaffolding)
 - **Session**: Database driver
 - **Caching**: Database cache store
@@ -263,10 +263,6 @@ User clicks article → Opens external health resource
 - **Debugging**: Laravel Tinker
 - **Version Control**: Git
 
-### Deployment Ready
-- Docker support (can be containerized)
-- Azure App Service compatible
-- PostgreSQL connection optimized
 
 ---
 
@@ -298,7 +294,7 @@ User clicks article → Opens external health resource
 - Articles organized by category
 - External links to authoritative sources (Mayo Clinic, CDC, Harvard, NIH)
 - Responsive card layout
-- Newsletter integration (optional)
+- Newsletter integration (optional) 
 
 ### 5.5 Authentication & Security
 - User registration & login
@@ -309,7 +305,7 @@ User clicks article → Opens external health resource
 
 ---
 
-## 6. File Structure (Key Components)
+## 6. PRoject Structure (Key Components)
 
 ```
 symptomcheck/
@@ -329,10 +325,10 @@ symptomcheck/
 │   └── Providers/
 ├── config/
 │   ├── app.php               ← App configuration
-│   ├── database.php          ← DB connections (PostgreSQL config here)
+│   ├── database.php          ← DB connections (MySQL config here)
 │   └── auth.php
 ├── database/
-│   ├── migrations/           ← 15 migration files (all PostgreSQL compatible)
+│   ├── migrations/           ← 15 migration files (all MySQL compatible)
 │   ├── seeders/
 │   │   └── SymptomSeeder.php ← Loads initial symptom data
 │   └── factories/
@@ -471,45 +467,8 @@ RETURN top 3 conditions with highest confidence scores
 - **Input Validation**: Form requests validate user inputs
 - **Data Privacy**: User consultations isolated per authenticated user
 
----
 
-## 10. Deployment Architecture (Recommended)
-
-For production deployment on Azure or similar:
-
-```
-┌──────────────────┐
-│   Load Balancer  │
-└────────┬─────────┘
-         │
-    ┌────┴────┐
-    │          │
-┌───▼──┐   ┌──▼───┐
-│App 1 │   │App 2 │  ← Multiple Laravel App Service instances
-└───┬──┘   └──┬───┘
-    │         │
-    └────┬────┘
-         │
-    ┌────▼──────────────┐
-    │ Azure Database for │
-    │   PostgreSQL       │
-    │  (Managed Service) │
-    └───────────────────┘
-```
-
-**Production Checklist:**
-- [ ] Enable HTTPS/TLS
-- [ ] Configure environment variables securely (Azure Key Vault)
-- [ ] Set up automated backups (PostgreSQL)
-- [ ] Enable monitoring & logging (Application Insights)
-- [ ] Configure cache (Redis if needed for performance)
-- [ ] Set up session sharing across instances
-- [ ] Enable file storage on Azure Blob Storage
-- [ ] Configure job queue (background tasks)
-
----
-
-## 11. Future Enhancements
+## 10. Future Enhancements
 
 - **AI/ML Integration**: Use machine learning for symptom-to-condition prediction
 - **Telemedicine**: Connect users with licensed healthcare providers
@@ -533,4 +492,3 @@ For production deployment on Azure or similar:
 5. **Stores** consultation history in PostgreSQL for user tracking
 6. **Provides** health resources and treatment recommendations
 
-The system is production-ready, secure, scalable, and deployed to PostgreSQL for reliable data management.

@@ -38,6 +38,7 @@
                     @yield('content')
                 @endisset
             </main>
+            @include('components.footer')
         </div>
     </body>
 </html>

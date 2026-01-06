@@ -146,12 +146,15 @@ npm install
  This file shows the exact, copy-paste PowerShell steps to get SymptomChecker running on a Windows developer machine using XAMPP (recommended) or a standalone MySQL install.
 
  Prerequisites (Windows)
+ - **PHP 8.2+** (check your version: `php --version`)
  - Git
- - XAMPP (recommended; includes PHP, MySQL, phpMyAdmin)
+ - XAMPP with PHP 8.2+ (recommended; includes PHP, MySQL, phpMyAdmin)
  - Composer (PHP dependency manager)
  - Node.js + npm
 
  Recommended: install XAMPP from https://www.apachefriends.org/ and start Apache + MySQL from its Control Panel.
+
+ **IMPORTANT**: If you have PHP 8.0 or older, you MUST upgrade to PHP 8.2+. See "Troubleshooting" section below for upgrade steps.
 
  1) Clone repository
 
@@ -239,6 +242,160 @@ npm install
  - "Access denied for user": check `.env` credentials and log into phpMyAdmin with same user.
  - "MySQL not running": open XAMPP control panel and start MySQL.
  - Migrations error "Specified key was too long": ensure `DB_CHARSET=utf8mb4` and `DB_COLLATION=utf8mb4_unicode_ci` in `.env`.
+ - **"Your lock file does not contain a compatible set of packages"**: You have PHP 8.0 or older. **UPGRADE to PHP 8.2+**:
+   - Check your PHP version: `php --version`
+   - If 8.0.x or lower, download XAMPP with PHP 8.2+: https://www.apachefriends.org/
+   - Uninstall old XAMPP, install new one
+   - Verify upgrade: `php --version` should show 8.2 or higher
+   - Then try `composer install` again
+
+ Standalone PHP 8.2+ Installation (Without XAMPP)
+
+ Use this if you prefer to install PHP, MySQL, and Node.js separately instead of using XAMPP.
+
+ Step 1: Download PHP 8.2+
+
+ 1. Go to: https://windows.php.net/download/
+ 2. Click **"PHP 8.2"** (or latest version)
+ 3. Download **"VC16 x64 Thread Safe Zip"** (most compatible)
+ 4. You'll download a `.zip` file (about 50-80 MB)
+
+ Step 2: Extract PHP to Your Computer
+
+ 1. Extract the ZIP file to: `C:\php` (create this folder if it doesn't exist)
+ 2. Your folder structure should look like:
+    ```
+    C:\php\
+    ├── php.exe
+    ├── php.ini-development
+    ├── php.ini-production
+    ├── ext\
+    ├── bin\
+    └── (other files)
+    ```
+
+ Step 3: Configure PHP
+
+ 1. Open File Explorer → Navigate to `C:\php`
+ 2. Find `php.ini-production` → Rename it to `php.ini`
+ 3. Right-click `php.ini` → Open with Notepad
+ 4. Find and uncomment these lines (remove the `;` at the start):
+    - Search for `;extension=pdo_mysql` → Change to `extension=pdo_mysql`
+    - Search for `;extension=curl` → Change to `extension=curl`
+    - Search for `;extension=fileinfo` → Change to `extension=fileinfo`
+ 5. Save the file (Ctrl+S)
+
+ Step 4: Add PHP to Windows PATH
+
+ This allows you to run `php` from anywhere in PowerShell.
+
+ 1. Press **Windows Key + X** → Click **"System"**
+ 2. Click **"Advanced system settings"** (on the right)
+ 3. Click **"Environment Variables"** button (bottom right)
+ 4. Under **"User variables for <your-user>"**, click **"New"**
+ 5. Variable name: `PATH`
+ 6. Variable value: `C:\php`
+ 7. Click **OK**, **OK**, **OK**
+ 8. **Close PowerShell completely and reopen it** (important!)
+
+ Step 5: Verify PHP Installation
+
+ Open a **new PowerShell window** and run:
+
+ ```powershell
+ php --version
+ ```
+
+ You should see:
+ ```
+ PHP 8.2.x or higher (CLI) ...
+ ```
+
+ If you get "php not found", go back to Step 4 and make sure PATH was added correctly.
+
+ Step 6: Install Composer (PHP Package Manager)
+
+ 1. Download Composer installer: https://getcomposer.org/Composer-Setup.exe
+ 2. Run the installer
+ 3. It will automatically find your PHP installation
+ 4. Complete the installation
+ 5. Verify Composer works:
+    ```powershell
+    composer --version
+    # Should show: Composer version 2.x.x
+    ```
+
+ Step 7: Install MySQL 8.0+
+
+ Option A: Download MySQL Installer (Recommended)
+ 1. Go to: https://dev.mysql.com/downloads/mysql/
+ 2. Download **"MySQL Community Server 8.0"** for Windows
+ 3. Run the installer
+ 4. Choose **"Server only"** installation type
+ 5. Keep default settings (Port: 3306)
+ 6. When prompted for MySQL Root Password, enter: `root` (or your preferred password)
+ 7. Complete the installation
+
+ Option B: Use Command Line (if Chocolatey is installed)
+ ```powershell
+ choco install mysql -y
+ ```
+
+ Step 8: Verify MySQL is Running
+
+ ```powershell
+ # Check if MySQL service is running
+ Get-Service | Select-String MySQL
+ ```
+
+ You should see: `Running  MySQL80`
+
+ If not running, start it:
+ ```powershell
+ net start MySQL80
+ ```
+
+ Step 9: Install Node.js + npm
+
+ 1. Go to: https://nodejs.org/
+ 2. Download **"LTS version"** (Long Term Support)
+ 3. Run the installer with default settings
+ 4. Verify installation:
+    ```powershell
+    node --version
+    npm --version
+    ```
+
+ Step 10: Clone and Setup SymptomChecker
+
+ Now follow the main quick setup steps (Steps 1-9 in the main guide above).
+
+ Step 11: Create MySQL Database
+
+ Use phpMyAdmin (easier):
+ 1. Go to: http://localhost/phpmyadmin
+ 2. Login with root / (password you set during MySQL installation)
+ 3. Click **"New"** → Create database:
+    - Database name: `symptomchecker`
+    - Collation: `utf8mb4_unicode_ci`
+ 4. Click **"Create"**
+
+ OR use MySQL command line (if you're comfortable):
+ ```powershell
+ mysql -u root -p
+ # Enter your password when prompted
+ # Then paste:
+ CREATE DATABASE IF NOT EXISTS symptomchecker CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ EXIT;
+ ```
+
+ Done! You now have:
+ ✅ PHP 8.2+
+ ✅ Composer
+ ✅ MySQL 8.0+
+ ✅ Node.js + npm
+
+ Continue with the main setup steps above.
 
  Quick copy checklist (PowerShell)
  ```powershell
@@ -255,9 +412,11 @@ npm install
  npm run dev
  ```
 
- That's it — the app should be running locally on Windows. If you'd like, I can:
- - Add a short `start-dev.ps1` script that runs the commands for you, or
- - Add a one-click `.bat` for XAMPP users to start everything.
+ That's it — the app should be running locally on Windows.
+
+ Alternative: Docker Setup
+
+ If you'd prefer to avoid PHP/MySQL installation entirely, see `DOCKER_SETUP.md` for a containerized setup using Docker Desktop.
 
 ```
 VITE v5.x.x  ready in xxx ms

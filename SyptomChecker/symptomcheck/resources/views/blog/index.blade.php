@@ -14,6 +14,7 @@
     .hero-blog h1 {
         font-size: 2.5rem;
         margin-bottom: 0.5rem;
+        color: white
     }
 
     .hero-blog p {
@@ -285,14 +286,14 @@
 
 <div class="container">
     <div class="disclaimer">
-        <strong>⚠️ Medical Disclaimer:</strong> The information provided in these articles is for educational purposes only and should not be considered medical advice. Always consult with a qualified healthcare professional for medical concerns.
+        <strong>Medical Disclaimer:</strong> The information provided in these articles is for educational purposes only and should not be considered medical advice. Always consult with a qualified healthcare professional for medical concerns.
     </div>
 
     <div class="search-filter">
-        <div class="search-box">
+        <!-- <div class="search-box">
             <span class="search-icon">🔍</span>
             <input type="text" placeholder="Search articles..." id="searchInput">
-        </div>
+        </div> -->
         <div class="category-filters">
             <span class="category-tag active" onclick="filterCategory(this, 'all')">All</span>
             <span class="category-tag" onclick="filterCategory(this, 'prevention')">Prevention</span>

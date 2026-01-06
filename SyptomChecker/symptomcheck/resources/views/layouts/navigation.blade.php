@@ -13,9 +13,6 @@
             <!-- Centered Navigation Links -->
             <div class="flex-1 flex items-center justify-center">
                 <div class="sm:flex sm:items-center space-x-6">
-                    <x-nav-link :href="route('blog')" :active="request()->routeIs('blog')">
-                        {{ __('Blog') }}
-                    </x-nav-link>
                     @auth
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Dashboard') }}
@@ -42,6 +39,9 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('blog')">
+                            {{ __('Blog') }}
                         </x-dropdown-link>
                         <!-- Logout -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -78,6 +78,9 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('blog')" :active="request()->routeIs('blog')">
+                {{ __('Blog') }}
+            </x-responsive-nav-link>
             @auth
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}

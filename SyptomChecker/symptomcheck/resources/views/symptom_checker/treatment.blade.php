@@ -55,7 +55,7 @@
                 <p><strong>Dosage:</strong> 500-1000mg every 4-6 hours (max 4000mg/24h)</p>
                 <p><strong>Examples:</strong> Panadol, Calpol</p>
                 <div style="background: #fef3c7; padding: 0.75rem; border-radius: 0.5rem; margin-top: 0.75rem; font-size: 0.85rem;">
-                    <strong>⚠️ Warning:</strong> Do not exceed recommended dose. Avoid if you have liver problems.
+                    <strong>Warning:</strong> Do not exceed recommended dose. Avoid if you have liver problems.
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                 <p><strong>Dosage:</strong> 200-400mg every 4-6 hours with food</p>
                 <p><strong>Examples:</strong> Nurofen, Advil</p>
                 <div style="background: #fef3c7; padding: 0.75rem; border-radius: 0.5rem; margin-top: 0.75rem; font-size: 0.85rem;">
-                    <strong>⚠️ Warning:</strong> Take with food. Avoid if you have stomach ulcers or kidney problems.
+                    <strong>Warning:</strong> Take with food. Avoid if you have stomach ulcers or kidney problems.
                 </div>
             </div>
 
@@ -75,7 +75,7 @@
                 <p><strong>Examples:</strong> Pseudoephedrine (Sudafed), Phenylephrine</p>
                 <p><strong>Note:</strong> Use for no more than 5-7 days</p>
                 <div style="background: #fef3c7; padding: 0.75rem; border-radius: 0.5rem; margin-top: 0.75rem; font-size: 0.85rem;">
-                    <strong>⚠️ Warning:</strong> May raise blood pressure. Avoid if you have high blood pressure or heart disease.
+                    <strong>Warning:</strong> May raise blood pressure. Avoid if you have high blood pressure or heart disease.
                 </div>
             </div>
 
@@ -158,7 +158,7 @@
 
     <!-- When to Seek Help -->
     <div class="alert alert-danger" style="background: #fee2e2; color: #991b1b; border-left: 4px solid var(--danger-color); padding: 1rem; border-radius: 0.5rem; margin-bottom: 2rem;">
-        <strong>🚨 When to Seek Emergency Care</strong>
+        <strong>When to Seek Emergency Care</strong>
         <ul style="margin-left: 1.5rem; margin-top: 0.5rem; margin-bottom: 0;">
             <li>Difficulty breathing or shortness of breath</li>
             <li>Chest pain or pressure</li>
